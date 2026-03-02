@@ -15,6 +15,7 @@ const Sparkles = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/20
 const Flame = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>);
 const Users = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>);
 const X = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>);
+const Calendar = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>);
 
 // --- COMPONENTE PER L'ANIMAZIONE DEI NUMERI ---
 const AnimatedNumber = ({ value }: { value: number }) => {
@@ -61,6 +62,12 @@ interface MockData {
   fantaeurovision: CompetitionData;
 }
 
+const eventConfig = {
+  title: "Eurovision Song Contest 2026",
+  dates: "12 - 14 - 16 maggio 2026",
+  isOngoing: false 
+};
+
 const mockData: MockData = {
   fantasanremo: {
     2024: [
@@ -86,9 +93,9 @@ const mockData: MockData = {
       { rank: 3, name: "???", score: 0 }
     ],
     2025: [
-      { rank: 1, name: "Giuseppe", score: 583 },
-      { rank: 2, name: "Antonio", score: 534 },
-      { rank: 3, name: "Matteo", score: 495 }
+      { rank: 1, name: "Giuseppe", score: 583, team: ["Nemo", "Baby Lasagna", "Alyona Alyona", "Angelina Mango", "Slimane"] },
+      { rank: 2, name: "Antonio", score: 534, team: ["Bambie Thug", "Marcus & Martinus", "Ladaniva", "Marina Satti", "Olly Alexander"] },
+      { rank: 3, name: "Matteo", score: 495, team: ["Nebulossa", "Gåte", "Kaleen", "Iolanda", "Windows95man"] }
     ],
     2026: [
       { rank: 1, name: "In Arrivo", score: 0 },
@@ -100,9 +107,9 @@ const mockData: MockData = {
 
 // Dati speciali solo per le Fantaolimpiadi
 const fantaolimpiadiData: RankData[] = [
-  { rank: 1, name: "In Arrivo", score: 0 },
-  { rank: 2, name: "In Arrivo", score: 0 },
-  { rank: 3, name: "In Arrivo", score: 0 }
+  { rank: 1, name: "In Arrivo", score: 0, team: ["Nazione 1", "Nazione 2", "Nazione 3", "Nazione 4", "Nazione 5"] },
+  { rank: 2, name: "In Arrivo", score: 0, team: ["Nazione 1", "Nazione 2", "Nazione 3", "Nazione 4", "Nazione 5"] },
+  { rank: 3, name: "In Arrivo", score: 0, team: ["Nazione 1", "Nazione 2", "Nazione 3", "Nazione 4", "Nazione 5"] }
 ];
 
 // --- FUNZIONE PER CALCOLARE IL MEDAGLIERE IN AUTOMATICO ---
@@ -111,17 +118,13 @@ const ALL_PLAYERS = ["Antonio", "Giuseppe", "Matteo", "Claudia", "Angelica", "Gi
 const calculateMedagliere = () => {
   const medals: Record<string, { name: string; gold: number; silver: number; bronze: number }> = {};
 
-  // Inizializza tutti i giocatori (anche quelli a zero)
   ALL_PLAYERS.forEach(name => {
     medals[name] = { name, gold: 0, silver: 0, bronze: 0 };
   });
 
   const processData = (data: RankData[]) => {
     data.forEach(player => {
-      // Ignora i placeholder
       if (!player.name || player.name === "???" || player.name === "In Arrivo") return;
-      
-      // Se c'è un giocatore nuovo non nella lista base, aggiungilo dinamicamente
       if (!medals[player.name]) {
         medals[player.name] = { name: player.name, gold: 0, silver: 0, bronze: 0 };
       }
@@ -132,12 +135,10 @@ const calculateMedagliere = () => {
     });
   };
 
-  // Processa tutte le edizioni di tutti i giochi
   Object.values(mockData.fantasanremo).forEach(processData);
   Object.values(mockData.fantaeurovision).forEach(processData);
   processData(fantaolimpiadiData);
 
-  // Ordina per Ori, poi Argenti, poi Bronzi
   return Object.values(medals).sort((a, b) => b.gold - a.gold || b.silver - a.silver || b.bronze - a.bronze);
 };
 
@@ -164,7 +165,6 @@ const PodiumStep = ({ rank, name, score, delay, themeColor, onClick }: PodiumSte
   
   const Icon = isFirst ? Crown : Medal;
 
-  // Stile dinamico etichetta squadra in base al tema
   const tagColor = themeColor === 'blue' 
     ? 'text-blue-300 bg-blue-900/40 border-blue-500/30' 
     : themeColor === 'purple'
@@ -178,7 +178,7 @@ const PodiumStep = ({ rank, name, score, delay, themeColor, onClick }: PodiumSte
       onClick={onClick}
     >
       <div className="flex flex-col items-center mb-4 text-center z-10 transition-transform hover:-translate-y-2 group-hover:scale-105 duration-300">
-        <div className={`p-3 rounded-full mb-2 bg-gray-800/80 backdrop-blur-sm border-2 ${isFirst ? 'border-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.5)]' : isSecond ? 'border-gray-300' : 'border-orange-400'}`}>
+        <div className={`p-3 rounded-full mb-2 bg-gray-800/80 backdrop-blur-sm border-2 ${isFirst ? 'border-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.5)] animate-winner-glow' : isSecond ? 'border-gray-300' : 'border-orange-400'}`}>
           <Icon className={`w-6 h-6 md:w-8 md:h-8 ${isFirst ? 'text-yellow-400' : isSecond ? 'text-gray-300' : 'text-orange-400'}`} />
         </div>
         <span className="font-bold text-white text-sm md:text-base truncate w-full px-1">{name}</span>
@@ -189,7 +189,8 @@ const PodiumStep = ({ rank, name, score, delay, themeColor, onClick }: PodiumSte
           <Users className="w-3 h-3" /> Squadra
         </div>
       </div>
-      <div className={`w-full ${heightClass} ${colorClass} rounded-t-lg border-t-4 shadow-lg flex items-start justify-center pt-4 relative overflow-hidden transition-all ${isFirst ? 'shadow-[0_-15px_40px_-10px_rgba(250,204,21,0.5)] z-10' : ''}`}>
+      {/* Rimossa l'ombra fissa e animata dal piedistallo */}
+      <div className={`w-full ${heightClass} ${colorClass} rounded-t-lg border-t-4 shadow-lg flex items-start justify-center pt-4 relative overflow-hidden transition-all ${isFirst ? 'z-10' : ''}`}>
         <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         <span className="text-3xl md:text-5xl font-black opacity-80 drop-shadow-md">{rank}</span>
       </div>
@@ -253,17 +254,14 @@ export default function App() {
   const currentData = activeTab === 'fantasanremo' ? mockData.fantasanremo : mockData.fantaeurovision;
   const years: (keyof CompetitionData)[] = [2026, 2025, 2024];
 
-  // Variabili tema
   const isSanremo = activeTab === 'fantasanremo';
   const tabGradientSanremo = 'from-blue-600 to-cyan-600';
   const tabGradientEurovision = 'from-purple-600 to-pink-600';
   const themeColor = isSanremo ? 'blue' : 'purple';
 
-  // Calcolo Dinamico del medagliere
   const medagliereAggiornato = calculateMedagliere();
 
   return (
-    // Aggiunto overflow-x-hidden al contenitore principale
     <div className="min-h-screen bg-[#0a0a0f] text-gray-100 font-sans selection:bg-indigo-500/30 overflow-x-hidden">
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(50px); } 100% { opacity: 1; transform: translateY(0); } }
@@ -271,10 +269,17 @@ export default function App() {
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         @keyframes popIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
         
+        /* Animazione personalizzata per l'effetto dinamico del vincitore spostata sul cerchio */
+        @keyframes winnerGlow { 
+          0%, 100% { box-shadow: 0 0 15px rgba(250,204,21,0.4); } 
+          50% { box-shadow: 0 0 25px rgba(250,204,21,0.8); } 
+        }
+        
         .animate-slide-up-fade { animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
         .animate-float { animation: float 4s ease-in-out infinite; }
         .animate-pop-in { animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-winner-glow { animation: winnerGlow 3s ease-in-out infinite; }
         .fill-mode-forwards { animation-fill-mode: forwards; }
 
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
@@ -317,10 +322,10 @@ export default function App() {
         </div>
       )}
 
-      {/* Hero Section - Rimossa la classe overflow-hidden per far espandere bene le luci! */}
+      {/* Hero Section */}
       <header className="relative pt-20 pb-12 z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] pointer-events-none"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none"></div>
         
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center justify-center p-3 bg-gray-800/50 rounded-full mb-6 border border-gray-700 animate-float">
@@ -350,7 +355,6 @@ export default function App() {
           </div>
           
           <div className="bg-gray-800/40 backdrop-blur-md rounded-3xl overflow-hidden border border-gray-700/50 shadow-2xl">
-            {/* Header Tabella */}
             <div className="grid grid-cols-12 gap-2 p-4 md:p-5 bg-gray-900/80 text-xs md:text-sm font-bold text-gray-400 uppercase tracking-wider text-center border-b border-gray-700/50">
               <div className="col-span-2 md:col-span-2 text-left pl-2 md:pl-6">Pos</div>
               <div className="col-span-4 md:col-span-4 text-left">Fanta Allenatore</div>
@@ -359,7 +363,6 @@ export default function App() {
               <div className="col-span-2 flex justify-center"><div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div></div>
             </div>
             
-            {/* Corpo Tabella Automatico */}
             <div className="flex flex-col">
               {medagliereAggiornato.map((player, index) => {
                 const isTop3 = index < 3;
@@ -380,7 +383,7 @@ export default function App() {
         </section>
 
         {/* Tab Selector per le edizioni classiche */}
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center mb-10">
           <div className="bg-gray-800/80 backdrop-blur-md p-1.5 rounded-2xl inline-flex border border-gray-700/50 shadow-xl">
             <button
               onClick={() => handleTabChange('fantasanremo')}
@@ -403,6 +406,32 @@ export default function App() {
           </div>
         </div>
 
+        {/* Banner Prossimo Evento */}
+        <div className="max-w-2xl mx-auto mb-12 animate-fade-in relative group cursor-default">
+          <div className={`absolute -inset-1 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 ${eventConfig.isOngoing ? 'bg-red-500 animate-pulse' : (isSanremo ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-purple-500 to-fuchsia-500')}`}></div>
+          <div className="relative p-3 sm:p-4 rounded-2xl bg-gray-800 border border-gray-700/50 backdrop-blur-xl">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+              <div className="flex items-center gap-3 sm:gap-4 w-full">
+                {eventConfig.isOngoing ? (
+                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-red-500/20 border border-red-500/30 flex-shrink-0 transition-colors duration-500">
+                    <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 animate-ping absolute"></div>
+                    <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 relative"></div>
+                  </div>
+                ) : <div className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full flex-shrink-0 transition-colors duration-500 ${isSanremo ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-purple-500/20 text-purple-400 border-purple-500/30'}`}><Calendar className="w-5 h-5 sm:w-6 sm:h-6" /></div>}
+                <div className="flex-1 min-w-0 text-left">
+                  <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5 sm:mb-1 transition-colors duration-500 ${eventConfig.isOngoing ? 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]' : (isSanremo ? 'text-blue-400' : 'text-purple-400')}`}>{eventConfig.isOngoing ? '🔴 Evento in corso' : 'Prossimo evento'}</p>
+                  <p className="text-white font-bold text-sm sm:text-lg leading-tight truncate sm:whitespace-normal">{eventConfig.title}</p>
+                </div>
+              </div>
+              {!eventConfig.isOngoing && (
+                <div className="w-full sm:w-auto bg-gray-900 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-gray-700 text-center flex-shrink-0">
+                  <p className="text-gray-300 text-xs sm:text-sm font-medium">{eventConfig.dates}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* Classifiche Selezionate */}
         <div className={`transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
           {years.map(year => (
@@ -416,7 +445,7 @@ export default function App() {
           ))}
         </div>
 
-        {/* --- SEZIONE FANTAOLIMPIADI (Separata dal selettore) --- */}
+        {/* --- SEZIONE FANTAOLIMPIADI --- */}
         <section className="mt-24 pt-16 border-t border-gray-800 relative z-10">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-64 bg-green-600/10 rounded-full blur-[100px] pointer-events-none"></div>
           
