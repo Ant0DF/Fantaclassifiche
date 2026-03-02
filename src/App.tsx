@@ -362,30 +362,37 @@ export default function App() {
       <main className="container mx-auto px-4 pb-24 relative z-10">
         
         {/* Banner Prossimo Evento / Evento in Corso */}
-        <div className="max-w-2xl mx-auto mb-16 animate-fade-in relative group cursor-default">
+        <div className="max-w-2xl mx-auto mb-10 md:mb-16 px-1 md:px-0 animate-fade-in relative group cursor-default">
           <div className={`absolute -inset-1 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 ${eventConfig.isOngoing ? 'bg-red-500 animate-pulse' : 'bg-gradient-to-r from-indigo-500 to-purple-500'}`}></div>
           <div className="relative p-1 rounded-2xl bg-gray-800/80 backdrop-blur-xl border border-gray-700/50">
-            <div className="px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-              <div className="flex items-center gap-4">
+            {/* Contenitore interno riorganizzato per mobile */}
+            <div className="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              
+              {/* Parte sinistra: Icona + Testo (Allineati a sinistra) */}
+              <div className="flex items-center gap-3 sm:gap-4 w-full">
                 {eventConfig.isOngoing ? (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500/20 border border-red-500/30 flex-shrink-0">
-                    <div className="h-4 w-4 rounded-full bg-red-500 animate-ping absolute"></div>
-                    <div className="h-4 w-4 rounded-full bg-red-500 relative"></div>
+                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-red-500/20 border border-red-500/30 flex-shrink-0">
+                    <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 animate-ping absolute"></div>
+                    <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 relative"></div>
                   </div>
                 ) : (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 flex-shrink-0">
-                    <Calendar className="w-6 h-6" />
+                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 flex-shrink-0">
+                    <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                 )}
-                <div>
-                  <p className={`text-xs font-black uppercase tracking-widest mb-1 ${eventConfig.isOngoing ? 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]' : 'text-indigo-400'}`}>
+                <div className="flex-1 min-w-0 text-left">
+                  <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5 sm:mb-1 ${eventConfig.isOngoing ? 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]' : 'text-indigo-400'}`}>
                     {eventConfig.isOngoing ? '🔴 Evento in corso' : 'Prossimo evento'}
                   </p>
-                  <p className="text-white font-bold text-lg leading-tight">{eventConfig.title}</p>
+                  <p className="text-white font-bold text-sm sm:text-lg leading-tight truncate sm:whitespace-normal">
+                    {eventConfig.title}
+                  </p>
                 </div>
               </div>
-              <div className="bg-gray-900/80 px-4 py-2 rounded-xl border border-gray-700">
-                <p className="text-gray-300 text-sm font-medium whitespace-nowrap">{eventConfig.dates}</p>
+              
+              {/* Parte destra: Data (Larghezza intera su mobile, automatica su PC) */}
+              <div className="w-full sm:w-auto bg-gray-900/80 px-3 py-2 sm:px-4 sm:py-2 rounded-xl border border-gray-700 text-center sm:text-left flex-shrink-0">
+                <p className="text-gray-300 text-xs sm:text-sm font-medium">{eventConfig.dates}</p>
               </div>
             </div>
           </div>
