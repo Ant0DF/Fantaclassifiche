@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react';
 
-// --- ICONE (SVG Inline) ---
-interface IconProps { className?: string; }
+// Tipi per le icone
+interface IconProps {
+  className?: string;
+}
+
+// Componenti Icone
+const Trophy = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>);
 const Crown = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>);
 const Medal = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/><path d="M11 12 5.12 2.2"/><path d="m13 12 5.88-9.8"/><path d="M8 7h8"/><circle cx="12" cy="17" r="5"/><path d="M12 18v-2h-.5"/></svg>);
+const Star = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>);
 const Music = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>);
 const Sparkles = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>);
+const Flame = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>);
 const Users = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>);
 const X = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>);
-const Share2 = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>);
-const Check = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"/></svg>);
-const CalendarIcon = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>);
 
-// --- COMPONENTE ANIMAZIONE NUMERI ---
+// --- COMPONENTE PER L'ANIMAZIONE DEI NUMERI ---
 const AnimatedNumber = ({ value }: { value: number }) => {
   const [displayValue, setDisplayValue] = useState(0);
 
@@ -39,12 +43,6 @@ const AnimatedNumber = ({ value }: { value: number }) => {
 };
 
 // --- DATI ---
-const eventConfig = {
-  title: "Eurovision Song Contest 2026",
-  dates: "12 - 14 - 16 MAGGIO 2026",
-  isOngoing: false 
-};
-
 interface RankData {
   rank: number;
   name: string;
@@ -100,94 +98,135 @@ const mockData: MockData = {
   }
 };
 
+// Dati speciali solo per le Fantaolimpiadi
+const fantaolimpiadiData: RankData[] = [
+  { rank: 1, name: "In Arrivo", score: 0 },
+  { rank: 2, name: "In Arrivo", score: 0 },
+  { rank: 3, name: "In Arrivo", score: 0 }
+];
+
+// --- FUNZIONE PER CALCOLARE IL MEDAGLIERE IN AUTOMATICO ---
+const ALL_PLAYERS = ["Antonio", "Giuseppe", "Matteo", "Claudia", "Angelica", "Giovanni", "Marialucia", "Luca"];
+
+const calculateMedagliere = () => {
+  const medals: Record<string, { name: string; gold: number; silver: number; bronze: number }> = {};
+
+  // Inizializza tutti i giocatori (anche quelli a zero)
+  ALL_PLAYERS.forEach(name => {
+    medals[name] = { name, gold: 0, silver: 0, bronze: 0 };
+  });
+
+  const processData = (data: RankData[]) => {
+    data.forEach(player => {
+      // Ignora i placeholder
+      if (!player.name || player.name === "???" || player.name === "In Arrivo") return;
+      
+      // Se c'è un giocatore nuovo non nella lista base, aggiungilo dinamicamente
+      if (!medals[player.name]) {
+        medals[player.name] = { name: player.name, gold: 0, silver: 0, bronze: 0 };
+      }
+      
+      if (player.rank === 1) medals[player.name].gold += 1;
+      if (player.rank === 2) medals[player.name].silver += 1;
+      if (player.rank === 3) medals[player.name].bronze += 1;
+    });
+  };
+
+  // Processa tutte le edizioni di tutti i giochi
+  Object.values(mockData.fantasanremo).forEach(processData);
+  Object.values(mockData.fantaeurovision).forEach(processData);
+  processData(fantaolimpiadiData);
+
+  // Ordina per Ori, poi Argenti, poi Bronzi
+  return Object.values(medals).sort((a, b) => b.gold - a.gold || b.silver - a.silver || b.bronze - a.bronze);
+};
+
 // --- COMPONENTI UI ---
 interface PodiumStepProps {
   rank: number;
   name: string;
   score: number;
   delay: number;
-  isSanremo: boolean;
+  themeColor: string;
   onClick: () => void;
 }
 
-const PodiumStep = ({ rank, name, score, delay, isSanremo, onClick }: PodiumStepProps) => {
+const PodiumStep = ({ rank, name, score, delay, themeColor, onClick }: PodiumStepProps) => {
   const isFirst = rank === 1;
   const isSecond = rank === 2;
   
-  // Dimensioni ottimizzate per eliminare l'effetto "stretto e alto"
-  const cardHeight = isFirst ? 'h-[230px] sm:h-[280px] md:h-[320px] w-[120px] sm:w-[150px] md:w-48' : 'h-[190px] sm:h-[230px] md:h-[260px] w-[105px] sm:w-[130px] md:w-40';
-  
-  // Sfondo solido trasparente, niente blur pesanti
-  const cardBg = isSanremo ? 'bg-[#15203c]' : 'bg-[#2a1b42]';
-  
-  // Colori bordi e testi
-  const rankColor = isFirst ? 'text-[#facc15] border-[#facc15]/50' : isSecond ? 'text-[#e2e8f0] border-[#e2e8f0]/30' : 'text-[#f97316] border-[#f97316]/30';
-  const glowClass = isFirst ? 'animate-winner-glow' : '';
+  const heightClass = isFirst ? 'h-48 md:h-56' : isSecond ? 'h-36 md:h-44' : 'h-28 md:h-32';
+  const colorClass = isFirst 
+    ? 'bg-gradient-to-t from-yellow-600 to-yellow-400 text-yellow-950 border-yellow-300' 
+    : isSecond 
+      ? 'bg-gradient-to-t from-gray-400 to-gray-200 text-gray-800 border-gray-100' 
+      : 'bg-gradient-to-t from-orange-700 to-orange-400 text-orange-950 border-orange-300';
   
   const Icon = isFirst ? Crown : Medal;
 
+  // Stile dinamico etichetta squadra in base al tema
+  const tagColor = themeColor === 'blue' 
+    ? 'text-blue-300 bg-blue-900/40 border-blue-500/30' 
+    : themeColor === 'purple'
+      ? 'text-purple-300 bg-purple-900/40 border-purple-500/30'
+      : 'text-green-300 bg-green-900/40 border-green-500/30';
+
   return (
     <div 
-      className={`relative flex flex-col items-center justify-end animate-slide-up-fade opacity-0 fill-mode-forwards cursor-pointer group/step z-10 ${isFirst ? 'mx-2 sm:mx-3 md:mx-4' : ''}`}
+      className={`flex flex-col items-center justify-end w-28 md:w-36 animate-slide-up-fade opacity-0 fill-mode-forwards cursor-pointer group`}
       style={{ animationDelay: `${delay}ms` }}
       onClick={onClick}
     >
-      {/* Card del Giocatore */}
-      <div className={`relative flex flex-col items-center p-2 sm:p-4 rounded-[1.5rem] sm:rounded-[2rem] border transition-transform duration-300 hover:-translate-y-2 ${cardHeight} ${cardBg} ${rankColor} ${glowClass}`}>
-        
-        {/* Numero Posizione in background */}
-        <div className="absolute top-2 left-3 sm:top-4 sm:left-4 text-2xl sm:text-4xl font-black opacity-10 pointer-events-none">{rank}°</div>
-
-        {/* Icona (Corona/Medaglia) centrale */}
-        <div className={`p-2 sm:p-4 rounded-full mt-4 sm:mt-2 mb-2 sm:mb-4 bg-gradient-to-b from-white/10 to-transparent border ${isFirst ? 'border-yellow-400/50' : 'border-white/10'}`}>
-          <Icon className={`w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 ${isFirst ? 'text-[#facc15] drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]' : isSecond ? 'text-slate-300' : 'text-orange-400'}`} />
+      <div className="flex flex-col items-center mb-4 text-center z-10 transition-transform hover:-translate-y-2 group-hover:scale-105 duration-300">
+        <div className={`p-3 rounded-full mb-2 bg-gray-800/80 backdrop-blur-sm border-2 ${isFirst ? 'border-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.5)]' : isSecond ? 'border-gray-300' : 'border-orange-400'}`}>
+          <Icon className={`w-6 h-6 md:w-8 md:h-8 ${isFirst ? 'text-yellow-400' : isSecond ? 'text-gray-300' : 'text-orange-400'}`} />
         </div>
-
-        {/* Nome Giocatore */}
-        <span className="font-bold text-white text-sm sm:text-base md:text-xl truncate w-full text-center px-1 mb-1">{name}</span>
-        
-        {/* Punteggio stile Fantasanremo */}
-        <span className={`text-[10px] sm:text-xs md:text-sm font-bold tracking-wide ${isSanremo ? 'text-[#10b981]' : 'text-[#f472b6]'}`}>
-          +{score} pt.
+        <span className="font-bold text-white text-sm md:text-base truncate w-full px-1">{name}</span>
+        <span className="text-xs md:text-sm text-gray-400 font-mono mt-1 bg-gray-900/50 px-2 py-1 rounded-full border border-gray-700">
+          {score} pt
         </span>
-
-        {/* Etichetta Squadra (Ancorata sempre in basso) */}
-        <div className="mt-auto mb-2 sm:mb-1">
-          <div className="flex items-center gap-1 text-[9px] sm:text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full bg-white/10 text-white/80 group-hover/step:bg-white/20 group-hover/step:text-white transition-colors">
-            <Users className="w-3 h-3 hidden sm:block" /> Squadra
-          </div>
+        <div className={`mt-2 flex items-center gap-1 text-[10px] md:text-xs font-bold opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1 rounded-full border ${tagColor}`}>
+          <Users className="w-3 h-3" /> Squadra
         </div>
+      </div>
+      <div className={`w-full ${heightClass} ${colorClass} rounded-t-lg border-t-4 shadow-lg flex items-start justify-center pt-4 relative overflow-hidden transition-all ${isFirst ? 'shadow-[0_-15px_40px_-10px_rgba(250,204,21,0.5)] z-10' : ''}`}>
+        <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <span className="text-3xl md:text-5xl font-black opacity-80 drop-shadow-md">{rank}</span>
       </div>
     </div>
   );
 };
 
 interface YearSectionProps {
-  year: keyof CompetitionData;
+  year: string;
   data: RankData[];
-  isSanremo: boolean;
+  themeColor?: string;
   onPlayerClick: (player: RankData) => void;
 }
 
-const YearSection = ({ year, data, isSanremo, onPlayerClick }: YearSectionProps) => {
+const YearSection = ({ year, data, themeColor = 'blue', onPlayerClick }: YearSectionProps) => {
   const podiumOrder = [data[1], data[0], data[2]];
+  
+  const fromColor = themeColor === 'green' ? 'from-green-500' : themeColor === 'purple' ? 'from-purple-500' : 'from-blue-500';
+  const toColor = themeColor === 'green' ? 'to-emerald-500' : themeColor === 'purple' ? 'to-pink-500' : 'to-cyan-500';
+  const radialGlow = themeColor === 'green' ? 'from-green-900/20' : themeColor === 'purple' ? 'from-purple-900/20' : 'from-blue-900/20';
 
   return (
-    <div className="mb-20 animate-fade-in relative">
-      {/* Intestazione Edizione */}
-      <div className="flex items-center justify-center gap-4 mb-8 sm:mb-10">
-        <div className={`h-[2px] w-8 sm:w-12 md:w-24 rounded-full bg-gradient-to-r from-transparent ${isSanremo ? 'to-blue-500/50' : 'to-purple-500/50'}`}></div>
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-wider">
+    <div className="mb-16 animate-fade-in">
+      <div className="flex items-center justify-center gap-3 mb-8">
+        <div className={`h-px w-12 md:w-24 bg-gradient-to-r from-transparent ${fromColor}`}></div>
+        <h2 className={`text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r ${fromColor} ${toColor} drop-shadow-sm`}>
           Edizione {year}
         </h2>
-        <div className={`h-[2px] w-8 sm:w-12 md:w-24 rounded-full bg-gradient-to-l from-transparent ${isSanremo ? 'to-blue-500/50' : 'to-purple-500/50'}`}></div>
+        <div className={`h-px w-12 md:w-24 bg-gradient-to-l from-transparent ${toColor}`}></div>
       </div>
-      
-      {/* Contenitore Podio */}
-      <div className="relative flex items-end justify-center pt-8 pb-4">
-        <PodiumStep rank={podiumOrder[0].rank} name={podiumOrder[0].name} score={podiumOrder[0].score} delay={400} isSanremo={isSanremo} onClick={() => onPlayerClick(podiumOrder[0])} />
-        <PodiumStep rank={podiumOrder[1].rank} name={podiumOrder[1].name} score={podiumOrder[1].score} delay={100} isSanremo={isSanremo} onClick={() => onPlayerClick(podiumOrder[1])} />
-        <PodiumStep rank={podiumOrder[2].rank} name={podiumOrder[2].name} score={podiumOrder[2].score} delay={700} isSanremo={isSanremo} onClick={() => onPlayerClick(podiumOrder[2])} />
+      <div className="bg-gray-800/40 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-gray-700/50 shadow-2xl relative overflow-hidden">
+        <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[200%] md:w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] ${radialGlow} via-gray-900/0 to-transparent pointer-events-none`}></div>
+        <div className="flex items-end justify-center gap-2 md:gap-6 pt-12 md:pt-20">
+          <PodiumStep rank={podiumOrder[0].rank} name={podiumOrder[0].name} score={podiumOrder[0].score} delay={400} themeColor={themeColor} onClick={() => onPlayerClick(podiumOrder[0])} />
+          <PodiumStep rank={podiumOrder[1].rank} name={podiumOrder[1].name} score={podiumOrder[1].score} delay={100} themeColor={themeColor} onClick={() => onPlayerClick(podiumOrder[1])} />
+          <PodiumStep rank={podiumOrder[2].rank} name={podiumOrder[2].name} score={podiumOrder[2].score} delay={700} themeColor={themeColor} onClick={() => onPlayerClick(podiumOrder[2])} />
+        </div>
       </div>
     </div>
   );
@@ -197,10 +236,9 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'fantasanremo' | 'fantaeurovision'>('fantasanremo');
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState<RankData | null>(null);
-  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
-    document.title = "Classifiche Fantasanremo e Fantaeurovision";
+    document.title = "Classifiche Fanta";
   }, []);
 
   const handleTabChange = (tab: 'fantasanremo' | 'fantaeurovision') => {
@@ -212,170 +250,204 @@ export default function App() {
     }, 300);
   };
 
-  const handleShare = async () => {
-    const shareData = {
-      title: 'Classifiche Fanta',
-      text: 'Guarda i vincitori storici delle leghe di Fantasanremo e Fantaeurovision!',
-      url: window.location.href,
-    };
-    if (navigator.share) {
-      try { await navigator.share(shareData); } catch (err) { console.log('Condivisione annullata'); }
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
-    }
-  };
-
   const currentData = activeTab === 'fantasanremo' ? mockData.fantasanremo : mockData.fantaeurovision;
   const years: (keyof CompetitionData)[] = [2026, 2025, 2024];
 
+  // Variabili tema
   const isSanremo = activeTab === 'fantasanremo';
+  const tabGradientSanremo = 'from-blue-600 to-cyan-600';
+  const tabGradientEurovision = 'from-purple-600 to-pink-600';
+  const themeColor = isSanremo ? 'blue' : 'purple';
 
-  // Sfondi in base al tema calcolati in modo ultra-leggero (CSS Gradient)
-  const bgMain = isSanremo ? '#091125' : '#120a1c';
-  const radialGradient = isSanremo 
-    ? 'radial-gradient(circle at 20% 0%, rgba(37,99,235,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 100%, rgba(6,182,212,0.1) 0%, transparent 50%)'
-    : 'radial-gradient(circle at 20% 0%, rgba(147,51,234,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 100%, rgba(236,72,153,0.1) 0%, transparent 50%)';
+  // Calcolo Dinamico del medagliere
+  const medagliereAggiornato = calculateMedagliere();
 
   return (
-    <div 
-      className="min-h-screen text-gray-100 selection:bg-white/20 relative pb-12 transition-colors duration-1000 overflow-x-hidden"
-      style={{ backgroundColor: bgMain, backgroundImage: radialGradient }}
-    >
+    // Aggiunto overflow-x-hidden al contenitore principale
+    <div className="min-h-screen bg-[#0a0a0f] text-gray-100 font-sans selection:bg-indigo-500/30 overflow-x-hidden">
       <style dangerouslySetInnerHTML={{__html: `
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap');
-        html, body { background-color: #091125; margin: 0; padding: 0; overscroll-behavior-y: none; font-family: 'Outfit', sans-serif; }
-        
-        @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(50px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
-        @keyframes popIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 15px rgba(250,204,21,0.2); } 50% { box-shadow: 0 0 35px rgba(250,204,21,0.5); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
         
-        .animate-slide-up-fade { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        .animate-slide-up-fade { animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        .animate-float { animation: float 4s ease-in-out infinite; }
         .animate-pop-in { animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-winner-glow { animation: pulseGlow 3s ease-in-out infinite; }
         .fill-mode-forwards { animation-fill-mode: forwards; }
-        
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(31, 41, 55, 0.5); border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.5); border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.8); }
       `}} />
 
-      {/* --- MODAL SQUADRA --- */}
+      {/* --- MODAL SQUADRA ESPANDIBILE --- */}
       {selectedPlayer && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/80 animate-fade-in" onClick={() => setSelectedPlayer(null)}>
-          <div className="bg-[#111827] border border-white/10 rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-pop-in relative" onClick={(e) => e.stopPropagation()}>
-            <div className="p-8 text-center relative bg-gradient-to-b from-white/5 to-transparent">
-              <button onClick={() => setSelectedPlayer(null)} className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"><X className="w-6 h-6" /></button>
-              <div className="inline-flex justify-center items-center p-4 rounded-full bg-white/5 mb-4 border border-white/10">
-                {selectedPlayer.rank === 1 ? <Crown className="w-12 h-12 text-[#facc15]" /> : <Medal className={`w-12 h-12 ${selectedPlayer.rank === 2 ? 'text-slate-300' : 'text-orange-400'}`} />}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedPlayer(null)}>
+          <div className="bg-gray-800 border border-gray-700 rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-pop-in relative" onClick={(e) => e.stopPropagation()}>
+            <div className={`p-6 text-center relative ${selectedPlayer.rank === 1 ? 'bg-gradient-to-br from-yellow-900/40 to-yellow-600/10' : selectedPlayer.rank === 2 ? 'bg-gradient-to-br from-gray-700/40 to-gray-500/10' : 'bg-gradient-to-br from-orange-900/40 to-orange-600/10'}`}>
+              <button onClick={() => setSelectedPlayer(null)} className="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-900/50 p-1.5 rounded-full transition-colors"><X className="w-5 h-5" /></button>
+              <div className="inline-flex justify-center items-center p-4 rounded-full bg-gray-900/50 shadow-inner mb-3">
+                {selectedPlayer.rank === 1 ? <Crown className="w-10 h-10 text-yellow-400" /> : <Medal className={`w-10 h-10 ${selectedPlayer.rank === 2 ? 'text-gray-300' : 'text-orange-400'}`} />}
               </div>
-              <h3 className="text-3xl font-black text-white">{selectedPlayer.name}</h3>
-              <p className={`font-bold mt-2 text-xl tracking-wide ${isSanremo ? 'text-[#10b981]' : 'text-[#f472b6]'}`}>+<AnimatedNumber value={selectedPlayer.score} /> pt.</p>
+              <h3 className="text-2xl font-black text-white">{selectedPlayer.name}</h3>
+              <p className="text-indigo-300 font-mono mt-1 font-bold text-lg"><AnimatedNumber value={selectedPlayer.score} /> pt</p>
             </div>
-            <div className="p-6 bg-[#0f1423] max-h-[50vh] overflow-y-auto custom-scrollbar">
-              <div className="flex items-center gap-2 mb-4 text-white/50 text-xs uppercase tracking-widest font-bold"><Users className="w-4 h-4" /> Formazione</div>
+            <div className="p-6 bg-gray-800 max-h-[50vh] overflow-y-auto custom-scrollbar">
+              <div className="flex items-center gap-2 mb-4 text-gray-400 text-sm uppercase tracking-wider font-bold"><Users className="w-4 h-4" /> Formazione</div>
               {selectedPlayer.team && selectedPlayer.team.length > 0 ? (
                 <ul className="space-y-2">
                   {selectedPlayer.team.map((member, idx) => {
                     const isReserve = idx >= 5;
                     return (
-                      <li key={idx} className={`flex items-center gap-3 p-3 rounded-2xl border ${isReserve ? 'bg-white/5 border-white/5 border-dashed text-white/50' : 'bg-white/10 border-white/5 text-white'}`}>
-                        <div className={`w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold ${isReserve ? 'bg-white/10 text-white/50' : 'bg-white/20 text-white/80'}`}>{isReserve ? 'R' : idx + 1}</div>
+                      <li key={idx} className={`flex items-center gap-3 p-3 rounded-xl border ${isReserve ? 'bg-gray-800/50 border-gray-700/30 border-dashed text-gray-400' : 'bg-gray-700/30 border-gray-700/50 text-gray-200'}`}>
+                        <div className={`w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold ${isReserve ? 'bg-gray-700 text-gray-500' : 'bg-gray-600 text-gray-300'}`}>{isReserve ? 'R' : idx + 1}</div>
                         <span className="font-medium">{member}</span>
-                        {isReserve && <span className="ml-auto text-[10px] uppercase tracking-wider font-bold text-yellow-500 bg-yellow-500/10 px-2 py-0.5 rounded-full">Riserva</span>}
+                        {isReserve && <span className="ml-auto text-[10px] uppercase tracking-wider font-bold text-yellow-600 border border-yellow-600/30 px-2 py-0.5 rounded-full bg-yellow-900/20">Riserva</span>}
                       </li>
                     );
                   })}
                 </ul>
-              ) : <div className="text-center p-6 text-white/30 italic bg-white/5 rounded-2xl border border-white/5">Nessuna squadra disponibile.</div>}
+              ) : <div className="text-center p-6 text-gray-500 italic bg-gray-900/30 rounded-xl border border-gray-700/30">Nessuna squadra disponibile.</div>}
             </div>
+            <div className="p-4 bg-gray-900/50 border-t border-gray-700"><button onClick={() => setSelectedPlayer(null)} className="w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-white font-bold transition-colors">Chiudi</button></div>
           </div>
         </div>
       )}
 
-      {/* --- INTESTAZIONE E TITOLO --- */}
-      <header className="relative pt-8 md:pt-12 z-20">
-        <div className="container mx-auto px-4 flex flex-col items-center relative">
+      {/* Hero Section - Rimossa la classe overflow-hidden per far espandere bene le luci! */}
+      <header className="relative pt-20 pb-12 z-10">
+        <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <div className="inline-flex items-center justify-center p-3 bg-gray-800/50 rounded-full mb-6 border border-gray-700 animate-float">
+            <Trophy className="w-8 h-8 text-yellow-400 mr-3" />
+            <span className="text-sm font-semibold tracking-widest uppercase text-gray-300 pr-2">Hall of Fame</span>
+          </div>
           
-          <button onClick={handleShare} className="absolute top-0 right-2 sm:right-6 flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] md:text-xs font-bold transition-all text-white/80 hover:text-white">
-            {isCopied ? <Check className="w-3 h-3 md:w-4 md:h-4 text-[#10b981]" /> : <Share2 className="w-3 h-3 md:w-4 md:h-4" />} <span className="hidden sm:inline">{isCopied ? 'Copiato!' : 'Condividi'}</span>
-          </button>
-
-          <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-6 md:mb-8 text-center drop-shadow-md px-2 leading-tight">
-            Classifiche <br className="md:hidden" />Fantasanremo <br className="md:hidden" />e Fantaeurovision
+          <h1 className="text-5xl md:text-7xl font-black mb-4 tracking-tight">
+            Classifiche <br className="md:hidden" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
+              Fantasanremo e Fantaeurovision
+            </span>
           </h1>
+          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+            Scopri i vincitori storici. Chi ha scalato le vette del punteggio?
+          </p>
         </div>
       </header>
 
-      {/* --- MENU SELETTORE STICKY --- */}
-      <div className="sticky top-4 z-50 w-full flex justify-center pb-6 pointer-events-none px-4">
-        <div className="bg-[#1a233a] rounded-full p-1 md:p-1.5 flex items-center border border-white/10 shadow-2xl pointer-events-auto w-full max-w-sm">
-          
-          <button 
-            onClick={() => handleTabChange('fantasanremo')} 
-            className="flex-1 group flex flex-col items-center relative py-2 md:py-3 rounded-full transition-colors"
-          >
-            <div className={`transition-all duration-300 ${isSanremo ? 'text-[#facc15]' : 'text-white/40 group-hover:text-white/80'}`}>
-              <Music className="w-4 h-4 md:w-5 md:h-5 mb-1" />
-            </div>
-            <span className={`text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-colors ${isSanremo ? 'text-white' : 'text-white/40 group-hover:text-white/80'}`}>Fantasanremo</span>
-            {isSanremo && <div className="absolute bottom-0 w-8 h-[3px] rounded-full bg-[#facc15]"></div>}
-          </button>
-
-          <button 
-            onClick={() => handleTabChange('fantaeurovision')} 
-            className="flex-1 group flex flex-col items-center relative py-2 md:py-3 rounded-full transition-colors"
-          >
-            <div className={`transition-all duration-300 ${!isSanremo ? 'text-[#f472b6]' : 'text-white/40 group-hover:text-white/80'}`}>
-              <Sparkles className="w-4 h-4 md:w-5 md:h-5 mb-1" />
-            </div>
-            <span className={`text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-colors ${!isSanremo ? 'text-white' : 'text-white/40 group-hover:text-white/80'}`}>Fantaeurovision</span>
-            {!isSanremo && <div className="absolute bottom-0 w-8 h-[3px] rounded-full bg-[#f472b6]"></div>}
-          </button>
-
-        </div>
-      </div>
-
-      {/* --- MAIN CONTENT --- */}
-      <main className="container mx-auto px-4 relative z-10 pt-2">
+      <main className="container mx-auto px-4 pb-24 relative z-10">
         
-        {/* Banner Evento Corretto */}
-        <div className="max-w-xl mx-auto mb-16 animate-fade-in relative transition-all duration-500">
-          <div className="bg-[#1c2438] rounded-[1.5rem] p-4 md:p-5 shadow-lg border border-white/5">
-            <div className="flex items-center gap-4 mb-4">
-              <div className={`flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border border-blue-500/30 flex-shrink-0 ${isSanremo ? 'text-blue-400 bg-blue-500/10' : 'text-purple-400 bg-purple-500/10'}`}>
-                {eventConfig.isOngoing ? (
-                   <div className="relative flex h-3 w-3">
-                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                     <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                   </div>
-                ) : <CalendarIcon className="w-5 h-5 md:w-6 md:h-6" />}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className={`text-[10px] md:text-xs font-bold uppercase tracking-widest mb-0.5 ${eventConfig.isOngoing ? 'text-red-400' : 'text-blue-300'}`}>
-                  {eventConfig.isOngoing ? '🔴 Evento in corso' : 'PROSSIMO EVENTO'}
-                </p>
-                <p className="text-white font-bold text-sm md:text-lg tracking-wide truncate">{eventConfig.title}</p>
-              </div>
+        {/* --- SEZIONE MEDAGLIERE GENERALE --- */}
+        <section className="max-w-4xl mx-auto mb-20 animate-fade-in">
+          <div className="flex flex-col items-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-2 tracking-wide">Medagliere Generale</h2>
+            <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 via-gray-300 to-orange-500 rounded-full"></div>
+          </div>
+          
+          <div className="bg-gray-800/40 backdrop-blur-md rounded-3xl overflow-hidden border border-gray-700/50 shadow-2xl">
+            {/* Header Tabella */}
+            <div className="grid grid-cols-12 gap-2 p-4 md:p-5 bg-gray-900/80 text-xs md:text-sm font-bold text-gray-400 uppercase tracking-wider text-center border-b border-gray-700/50">
+              <div className="col-span-2 md:col-span-2 text-left pl-2 md:pl-6">Pos</div>
+              <div className="col-span-4 md:col-span-4 text-left">Fanta Allenatore</div>
+              <div className="col-span-2 flex justify-center"><div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#facc15] shadow-[0_0_10px_rgba(250,204,21,0.5)]"></div></div>
+              <div className="col-span-2 flex justify-center"><div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-gray-300 shadow-[0_0_10px_rgba(209,213,219,0.4)]"></div></div>
+              <div className="col-span-2 flex justify-center"><div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div></div>
             </div>
             
-            {/* Tag Data sempre interno alla card */}
-            {!eventConfig.isOngoing && (
-              <div className="bg-[#111827] rounded-xl py-2 md:py-3 text-center border border-white/5 w-full">
-                <p className="text-gray-300 text-[10px] sm:text-xs font-bold tracking-widest uppercase">{eventConfig.dates}</p>
-              </div>
-            )}
+            {/* Corpo Tabella Automatico */}
+            <div className="flex flex-col">
+              {medagliereAggiornato.map((player, index) => {
+                const isTop3 = index < 3;
+                const posColor = index === 0 ? 'text-yellow-400' : index === 1 ? 'text-gray-300' : index === 2 ? 'text-orange-400' : 'text-gray-500';
+                
+                return (
+                  <div key={player.name} className="grid grid-cols-12 gap-2 p-4 md:p-5 text-sm md:text-lg items-center text-center border-b border-gray-700/30 last:border-0 hover:bg-gray-700/30 transition-colors group">
+                    <div className={`col-span-2 md:col-span-2 text-left pl-2 md:pl-6 font-mono font-black ${posColor}`}>{index + 1}°</div>
+                    <div className={`col-span-4 md:col-span-4 text-left font-bold ${isTop3 ? 'text-white' : 'text-gray-300'} group-hover:text-white transition-colors`}>{player.name}</div>
+                    <div className="col-span-2 font-mono text-yellow-400 font-bold">{player.gold}</div>
+                    <div className="col-span-2 font-mono text-gray-300 font-bold">{player.silver}</div>
+                    <div className="col-span-2 font-mono text-orange-400 font-bold">{player.bronze}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Tab Selector per le edizioni classiche */}
+        <div className="flex justify-center mb-12">
+          <div className="bg-gray-800/80 backdrop-blur-md p-1.5 rounded-2xl inline-flex border border-gray-700/50 shadow-xl">
+            <button
+              onClick={() => handleTabChange('fantasanremo')}
+              className={`relative flex items-center px-6 md:px-8 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 ${
+                isSanremo ? 'text-white shadow-lg' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+              }`}
+            >
+              {isSanremo && <div className={`absolute inset-0 bg-gradient-to-r ${tabGradientSanremo} rounded-xl z-0`}></div>}
+              <span className="relative z-10 flex items-center gap-2"><Music className="w-4 h-4" /> Fantasanremo</span>
+            </button>
+            <button
+              onClick={() => handleTabChange('fantaeurovision')}
+              className={`relative flex items-center px-6 md:px-8 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 ${
+                !isSanremo ? 'text-white shadow-lg' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+              }`}
+            >
+              {!isSanremo && <div className={`absolute inset-0 bg-gradient-to-r ${tabGradientEurovision} rounded-xl z-0`}></div>}
+              <span className="relative z-10 flex items-center gap-2"><Sparkles className="w-4 h-4" /> Fantaeurovision</span>
+            </button>
           </div>
         </div>
-        
-        {/* Classifiche */}
+
+        {/* Classifiche Selezionate */}
         <div className={`transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
-          {years.map(year => <YearSection key={`${activeTab}-${year}`} year={year} data={currentData[year]} isSanremo={isSanremo} onPlayerClick={setSelectedPlayer} />)}
+          {years.map(year => (
+            <YearSection 
+              key={`${activeTab}-${year}`} 
+              year={year.toString()} 
+              data={currentData[year]} 
+              themeColor={themeColor}
+              onPlayerClick={setSelectedPlayer}
+            />
+          ))}
         </div>
+
+        {/* --- SEZIONE FANTAOLIMPIADI (Separata dal selettore) --- */}
+        <section className="mt-24 pt-16 border-t border-gray-800 relative z-10">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-64 bg-green-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+          
+          <div className="text-center mb-12 relative z-20">
+            <div className="inline-flex items-center justify-center p-4 bg-gray-800/80 backdrop-blur-md rounded-full mb-6 border border-gray-700 shadow-xl">
+              <Flame className="w-8 h-8 text-green-400" />
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 tracking-tight drop-shadow-sm mb-4">
+              Fantaolimpiadi
+            </h2>
+            <p className="text-gray-400 max-w-xl mx-auto">
+              L'edizione speciale unica per le Olimpiadi Invernali Milano Cortina 2026.
+            </p>
+          </div>
+
+          <YearSection 
+            year="2026" 
+            data={fantaolimpiadiData} 
+            themeColor="green" 
+            onPlayerClick={setSelectedPlayer}
+          />
+        </section>
+
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-800 bg-gray-900/50 text-center py-8">
+        <p className="text-gray-500 flex items-center justify-center gap-2">
+          Prossima Competizione: Eurovision Song Contest 2026 <Star className="w-4 h-4 text-yellow-600" />
+        </p>
+      </footer>
     </div>
   );
 }
