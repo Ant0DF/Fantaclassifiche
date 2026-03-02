@@ -14,6 +14,15 @@ const Music = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/
 const Sparkles = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>);
 const Users = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>);
 const X = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>);
+const Calendar = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>);
+
+// Configurazione Evento Attuale/Prossimo
+const eventConfig = {
+  title: "Eurovision Song Contest 2026",
+  dates: "12 - 14 - 16 maggio 2026",
+  // Cambia questo valore in "true" quando l'evento inizia!
+  isOngoing: false 
+};
 
 // Tipi per i dati
 interface RankData {
@@ -351,6 +360,37 @@ export default function App() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 pb-24 relative z-10">
+        
+        {/* Banner Prossimo Evento / Evento in Corso */}
+        <div className="max-w-2xl mx-auto mb-16 animate-fade-in relative group cursor-default">
+          <div className={`absolute -inset-1 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 ${eventConfig.isOngoing ? 'bg-red-500 animate-pulse' : 'bg-gradient-to-r from-indigo-500 to-purple-500'}`}></div>
+          <div className="relative p-1 rounded-2xl bg-gray-800/80 backdrop-blur-xl border border-gray-700/50">
+            <div className="px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+              <div className="flex items-center gap-4">
+                {eventConfig.isOngoing ? (
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500/20 border border-red-500/30 flex-shrink-0">
+                    <div className="h-4 w-4 rounded-full bg-red-500 animate-ping absolute"></div>
+                    <div className="h-4 w-4 rounded-full bg-red-500 relative"></div>
+                  </div>
+                ) : (
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 flex-shrink-0">
+                    <Calendar className="w-6 h-6" />
+                  </div>
+                )}
+                <div>
+                  <p className={`text-xs font-black uppercase tracking-widest mb-1 ${eventConfig.isOngoing ? 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]' : 'text-indigo-400'}`}>
+                    {eventConfig.isOngoing ? '🔴 Evento in corso' : 'Prossimo evento'}
+                  </p>
+                  <p className="text-white font-bold text-lg leading-tight">{eventConfig.title}</p>
+                </div>
+              </div>
+              <div className="bg-gray-900/80 px-4 py-2 rounded-xl border border-gray-700">
+                <p className="text-gray-300 text-sm font-medium whitespace-nowrap">{eventConfig.dates}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className={`transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
           {years.map(year => (
             <YearSection key={`${activeTab}-${year}`} year={year} data={currentData[year]} onPlayerClick={setSelectedPlayer} />
@@ -358,10 +398,10 @@ export default function App() {
         </div>
       </main>
 
-      {/* Footer */}
+      {/* Footer (Semplificato visto che c'è il banner) */}
       <footer className="border-t border-gray-800 bg-gray-900/50 text-center py-8">
-        <p className="text-gray-500 flex items-center justify-center gap-2">
-          Prossima Competizione: Eurovision Song Contest 2026 (12-14-16 maggio 2026) <Star className="w-4 h-4 text-yellow-600" />
+        <p className="text-gray-500 flex items-center justify-center gap-2 text-sm font-medium">
+          Dati sperimentali in attesa dei risultati ufficiali <Star className="w-4 h-4 text-yellow-600" />
         </p>
       </footer>
     </div>
