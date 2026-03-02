@@ -233,7 +233,7 @@ export default function App() {
                   <img 
                     src="/logo-fantasanremo.png" 
                     alt="Fantasanremo" 
-                    className="h-12 md:h-16 w-auto object-contain drop-shadow-lg" 
+                    className="h-20 md:h-18 w-auto object-contain drop-shadow-lg" 
                   />
                 </span>
               </button>
@@ -280,4 +280,3 @@ export default function App() {
     </div>
   );
 }
-
