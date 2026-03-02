@@ -48,9 +48,9 @@ const mockData: MockData = {
       { rank: 3, name: "Claudia", score: 1752, team: ["Cantante K", "Cantante L", "Cantante M", "Cantante N", "Cantante O", "Riserva 1", "Riserva 2"] }
     ],
     2026: [
-      { rank: 1, name: "Antonio", score: 2446, team: ["Da Definire 1", "Da Definire 2", "Da Definire 3", "Da Definire 4", "Da Definire 5", "Riserva 1", "Riserva 2"] },
-      { rank: 2, name: "Matteo", score: 2339, team: ["Da Definire", "Da Definire", "Da Definire", "Da Definire", "Da Definire", "Riserva 1", "Riserva 2"] },
-      { rank: 3, name: "Giuseppe", score: 2335, team: ["Da Definire", "Da Definire", "Da Definire", "Da Definire", "Da Definire", "Riserva 1", "Riserva 2"] }
+      { rank: 1, name: "Antonio", score: 2446, team: ["Fedez & Masini", "Ditonellapiaga", "Sal Da Vinci", "Serena Brancale", "LDA & AKA 7even", "Eddie Brock", "Sayf"] },
+      { rank: 2, name: "Matteo", score: 2339, team: ["Sayf", "Serena Brancale", "LDA & AKA 7even", "Bambole di Pezza", "Tommaso Paradiso", "Maria Antonietta & Colombre", "Francesco Renga"] },
+      { rank: 3, name: "Giuseppe", score: 2335, team: ["Sal Da Vinci", "Ditonellapiaga", "Sayf", "LDA & AKA 7even", "Fedez & Masini", "Serena Brancale", "Eddie Brock"] }
     ]
   },
   fantaeurovision: {
