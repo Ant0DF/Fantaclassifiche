@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Tipi per le icone
 interface IconProps {
@@ -15,6 +15,34 @@ const Sparkles = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/20
 const Users = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>);
 const X = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>);
 const Calendar = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>);
+const Share2 = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>);
+const Check = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"/></svg>);
+
+// --- COMPONENTE PER L'ANIMAZIONE DEI NUMERI ---
+const AnimatedNumber = ({ value }: { value: number }) => {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const duration = 1200; // 1.2 secondi
+    const frames = 60;
+    const increment = value / (duration / (1000 / frames));
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= value) {
+        setDisplayValue(value);
+        clearInterval(timer);
+      } else {
+        setDisplayValue(Math.floor(start));
+      }
+    }, 1000 / frames);
+
+    return () => clearInterval(timer);
+  }, [value]);
+
+  return <>{displayValue}</>;
+};
 
 // Configurazione Evento Attuale/Prossimo
 const eventConfig = {
@@ -154,7 +182,7 @@ const YearSection = ({ year, data, onPlayerClick }: YearSectionProps) => {
         <div className="h-px w-12 md:w-24 bg-gradient-to-l from-transparent to-purple-500"></div>
       </div>
       
-      <div className="bg-gray-800/40 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-gray-700/50 shadow-2xl relative overflow-hidden">
+      <div className="bg-gray-800/60 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-gray-700/50 shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[200%] md:w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-gray-900/0 to-transparent pointer-events-none"></div>
 
         <div className="flex items-end justify-center gap-2 md:gap-6 pt-12 md:pt-20">
@@ -171,6 +199,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'fantasanremo' | 'fantaeurovision'>('fantasanremo');
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState<RankData | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleTabChange = (tab: 'fantasanremo' | 'fantaeurovision') => {
     if (tab === activeTab) return;
@@ -181,18 +210,45 @@ export default function App() {
     }, 300);
   };
 
+  // Funzione per condividere l'app
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Classifiche Fanta',
+      text: 'Guarda i vincitori storici delle leghe di Fantasanremo e Fantaeurovision!',
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.log('Condivisione annullata');
+      }
+    } else {
+      // Fallback per PC: copia il link negli appunti
+      navigator.clipboard.writeText(window.location.href);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    }
+  };
+
   const currentData = activeTab === 'fantasanremo' ? mockData.fantasanremo : mockData.fantaeurovision;
   const years: (keyof CompetitionData)[] = [2026, 2025, 2024];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-gray-100 font-sans selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-[#0a0a0f] text-gray-100 font-sans selection:bg-indigo-500/30 relative">
       <style dangerouslySetInnerHTML={{__html: `
         html, body {
           background-color: #0a0a0f;
           margin: 0;
           padding: 0;
-          /* Previene il comportamento di "rimbalzo" bianco su alcuni dispositivi mobile */
           overscroll-behavior-y: none;
+        }
+        /* Sfondo a griglia elegante */
+        .bg-grid-pattern {
+          background-size: 40px 40px;
+          background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                            linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         }
         @keyframes slideUpFade {
           0% { opacity: 0; transform: translateY(50px); }
@@ -223,10 +279,13 @@ export default function App() {
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.8); }
       `}} />
 
+      {/* Div Sfondo Pattern */}
+      <div className="absolute inset-0 bg-grid-pattern pointer-events-none z-0"></div>
+
       {/* Modal Squadra */}
       {selectedPlayer && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
           onClick={() => setSelectedPlayer(null)}
         >
           <div 
@@ -250,7 +309,9 @@ export default function App() {
                 {selectedPlayer.rank === 1 ? <Crown className="w-10 h-10 text-yellow-400" /> : <Medal className={`w-10 h-10 ${selectedPlayer.rank === 2 ? 'text-gray-300' : 'text-orange-400'}`} />}
               </div>
               <h3 className="text-2xl font-black text-white">{selectedPlayer.name}</h3>
-              <p className="text-indigo-300 font-mono mt-1 font-semibold">{selectedPlayer.score} Punti</p>
+              <p className="text-indigo-300 font-mono mt-1 font-bold text-lg">
+                <AnimatedNumber value={selectedPlayer.score} /> pt
+              </p>
             </div>
 
             {/* Lista Cantanti/Squadra */}
@@ -298,8 +359,19 @@ export default function App() {
         </div>
       )}
 
+      {/* Floating Share Button */}
+      <div className="absolute top-6 right-6 z-40 hidden sm:block">
+        <button 
+          onClick={handleShare}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-800/80 hover:bg-indigo-600 backdrop-blur-md border border-gray-700 text-sm font-bold transition-all shadow-lg text-white"
+        >
+          {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Share2 className="w-4 h-4" />}
+          {isCopied ? 'Copiato!' : 'Condividi'}
+        </button>
+      </div>
+
       {/* Hero Section */}
-      <header className="relative pt-20 pb-16 overflow-hidden">
+      <header className="relative pt-12 sm:pt-20 pb-12 overflow-hidden z-10">
         <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-indigo-600/20 rounded-full blur-[100px]"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/20 rounded-full blur-[100px]"></div>
         
@@ -309,57 +381,66 @@ export default function App() {
             <span className="text-sm font-semibold tracking-widest uppercase text-gray-300 pr-2">Hall of Fame</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight relative">
             Classifiche <br className="md:hidden" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
               Fantasanremo e Fantaeurovision
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12">
+          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-8 sm:mb-12">
             Scopri i vincitori storici delle leghe di Fantasanremo e Fantaeurovision. Chi ha scalato le vette del punteggio?
           </p>
 
-          {/* Tab Selector */}
-          <div className="flex justify-center mb-4">
-            <div className="bg-gray-800/80 backdrop-blur-md p-1.5 rounded-2xl inline-flex border border-gray-700/50">
-              <button
-                onClick={() => handleTabChange('fantasanremo')}
-                className={`relative flex items-center px-6 md:px-8 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 ${
-                  activeTab === 'fantasanremo' 
-                    ? 'text-white shadow-lg' 
-                    : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
-                }`}
-              >
-                {activeTab === 'fantasanremo' && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl z-0"></div>
-                )}
-                <span className="relative z-10 flex items-center gap-2">
-                  <Music className="w-4 h-4" /> Fantasanremo
-                </span>
-              </button>
-              
-              <button
-                onClick={() => handleTabChange('fantaeurovision')}
-                className={`relative flex items-center px-6 md:px-8 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 ${
-                  activeTab === 'fantaeurovision' 
-                    ? 'text-white shadow-lg' 
-                    : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
-                }`}
-              >
-                {activeTab === 'fantaeurovision' && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl z-0"></div>
-                )}
-                <span className="relative z-10 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4" /> Fantaeurovision
-                </span>
-              </button>
-            </div>
-          </div>
+          {/* Share Button (Mobile Only) */}
+          <button 
+            onClick={handleShare}
+            className="sm:hidden mx-auto mb-10 flex items-center gap-2 px-6 py-3 rounded-full bg-gray-800/80 hover:bg-indigo-600 border border-gray-700 text-sm font-bold transition-all text-white"
+          >
+            {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Share2 className="w-4 h-4" />}
+            {isCopied ? 'Link Copiato!' : 'Condividi la classifica'}
+          </button>
         </div>
       </header>
 
+      {/* TAB SELECTOR (STICKY) - Rimane in alto quando scorri */}
+      <div className="sticky top-4 z-50 mx-auto w-fit px-4 flex justify-center mb-8 pointer-events-none">
+        <div className="bg-gray-900/80 backdrop-blur-xl p-1.5 rounded-2xl inline-flex border border-gray-700 shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-auto">
+          <button
+            onClick={() => handleTabChange('fantasanremo')}
+            className={`relative flex items-center px-4 md:px-8 py-2 md:py-3 rounded-xl font-bold text-xs sm:text-sm md:text-base transition-all duration-300 ${
+              activeTab === 'fantasanremo' 
+                ? 'text-white shadow-lg' 
+                : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+            }`}
+          >
+            {activeTab === 'fantasanremo' && (
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl z-0"></div>
+            )}
+            <span className="relative z-10 flex items-center gap-1 sm:gap-2">
+              <Music className="w-4 h-4 hidden sm:block" /> Fantasanremo
+            </span>
+          </button>
+          
+          <button
+            onClick={() => handleTabChange('fantaeurovision')}
+            className={`relative flex items-center px-4 md:px-8 py-2 md:py-3 rounded-xl font-bold text-xs sm:text-sm md:text-base transition-all duration-300 ${
+              activeTab === 'fantaeurovision' 
+                ? 'text-white shadow-lg' 
+                : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+            }`}
+          >
+            {activeTab === 'fantaeurovision' && (
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl z-0"></div>
+            )}
+            <span className="relative z-10 flex items-center gap-1 sm:gap-2">
+              <Sparkles className="w-4 h-4 hidden sm:block" /> Fantaeurovision
+            </span>
+          </button>
+        </div>
+      </div>
+
       {/* Main Content */}
-      <main className="container mx-auto px-4 pb-24 relative z-10">
+      <main className="container mx-auto px-4 pb-24 relative z-10 pt-4">
         
         {/* Banner Prossimo Evento / Evento in Corso */}
         <div className="max-w-2xl mx-auto mb-10 md:mb-16 px-1 md:px-0 animate-fade-in relative group cursor-default">
@@ -406,7 +487,7 @@ export default function App() {
       </main>
 
       {/* Footer (Semplificato visto che c'è il banner) */}
-      <footer className="border-t border-gray-800 bg-gray-900/50 text-center py-8">
+      <footer className="border-t border-gray-800 bg-gray-900/80 backdrop-blur-md text-center py-8 relative z-10">
         <p className="text-gray-500 flex items-center justify-center gap-2 text-sm font-medium">
           Dati sperimentali in attesa dei risultati ufficiali <Star className="w-4 h-4 text-yellow-600" />
         </p>
