@@ -178,6 +178,13 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-gray-100 font-sans selection:bg-indigo-500/30">
       <style dangerouslySetInnerHTML={{__html: `
+        html, body {
+          background-color: #0a0a0f;
+          margin: 0;
+          padding: 0;
+          /* Previene il comportamento di "rimbalzo" bianco su alcuni dispositivi mobile */
+          overscroll-behavior-y: none;
+        }
         @keyframes slideUpFade {
           0% { opacity: 0; transform: translateY(50px); }
           100% { opacity: 1; transform: translateY(0); }
