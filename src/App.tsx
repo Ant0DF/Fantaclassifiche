@@ -189,7 +189,7 @@ export default function App() {
 
   // --- IMPOSTA IL TITOLO DELLA SCHEDA DEL BROWSER ---
   useEffect(() => {
-    document.title = "Archivio Storico Fanta"; // <-- Cambia questo per il titolo del browser
+    document.title = "Classifiche Fantasanremo-FantaESC"; // <-- Cambia questo per il titolo del browser
   }, []);
 
   const handleTabChange = (tab: 'fantasanremo' | 'fantaeurovision') => {
@@ -291,7 +291,7 @@ export default function App() {
           
           {/* --- TITOLO PRINCIPALE DELLA PAGINA --- */}
           <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight relative">
-            Archivio Storico <br className="md:hidden" />
+            Classifiche Fantasanremo e FantaESC <br className="md:hidden" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
               Fanta Classifiche
             </span>
