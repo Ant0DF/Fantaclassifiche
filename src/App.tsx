@@ -109,14 +109,14 @@ const PodiumStep = ({ rank, name, score, delay, onClick }: PodiumStepProps) => {
           {score} pt
         </span>
         
-        {/* Etichetta "Vedi Squadra" che appare al passaggio del mouse */}
-        <div className="mt-2 flex items-center gap-1 text-[10px] md:text-xs font-bold text-indigo-400 opacity-0 group-hover/step:opacity-100 transition-opacity bg-indigo-900/40 px-2 py-1 rounded-full border border-indigo-500/30">
+        {/* Etichetta "Vedi Squadra" che appare sempre su mobile, e al passaggio del mouse su PC */}
+        <div className="mt-2 flex items-center gap-1 text-[10px] md:text-xs font-bold text-indigo-400 opacity-100 md:opacity-0 group-hover/step:opacity-100 transition-opacity bg-indigo-900/40 px-2 py-1 rounded-full border border-indigo-500/30">
           <Users className="w-3 h-3" /> Squadra
         </div>
       </div>
 
       {/* Blocco Podio */}
-      <div className={`w-full ${heightClass} ${colorClass} rounded-t-lg border-t-4 shadow-lg flex items-start justify-center pt-4 relative overflow-hidden group-hover/step:brightness-110 transition-all`}>
+      <div className={`w-full ${heightClass} ${colorClass} rounded-t-lg border-t-4 shadow-lg flex items-start justify-center pt-4 relative overflow-hidden group-hover/step:brightness-110 transition-all ${isFirst ? 'shadow-[0_-15px_40px_-10px_rgba(250,204,21,0.5)] z-10' : ''}`}>
         <div className="absolute inset-0 bg-white/20 opacity-0 group-hover/step:opacity-100 transition-opacity duration-300"></div>
         <span className="text-3xl md:text-5xl font-black opacity-80 drop-shadow-md">
           {rank}
@@ -206,6 +206,12 @@ export default function App() {
         .animate-float { animation: float 4s ease-in-out infinite; }
         .animate-pop-in { animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .fill-mode-forwards { animation-fill-mode: forwards; }
+
+        /* Custom Scrollbar per la Modal */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(31, 41, 55, 0.5); border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.5); border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.8); }
       `}} />
 
       {/* Modal Squadra */}
@@ -239,7 +245,7 @@ export default function App() {
             </div>
 
             {/* Lista Cantanti/Squadra */}
-            <div className="p-6 bg-gray-800">
+            <div className="p-6 bg-gray-800 max-h-[50vh] overflow-y-auto custom-scrollbar">
               <div className="flex items-center gap-2 mb-4 text-gray-400 text-sm uppercase tracking-wider font-bold">
                 <Users className="w-4 h-4" /> Formazione
               </div>
