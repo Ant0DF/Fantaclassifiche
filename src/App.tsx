@@ -38,19 +38,19 @@ interface MockData {
 const mockData: MockData = {
   fantasanremo: {
     2024: [
-      { rank: 1, name: "Matteo", score: 1783, team: ["Angelina Mango", "Geolier", "Annalisa", "Ghali", "Irama"] },
-      { rank: 2, name: "Giuseppe", score: 1763, team: ["Mahmood", "Loredana Bertè", "Emma", "Dargen D'Amico", "The Kolors"] },
-      { rank: 3, name: "Antonio", score: 1741, team: ["Ricchi e Poveri", "Il Tre", "Rose Villain", "Alfa", "Gazzelle"] }
+      { rank: 1, name: "Matteo", score: 1783, team: ["Angelina Mango", "Geolier", "Annalisa", "Ghali", "Irama", "Riserva 1", "Riserva 2"] },
+      { rank: 2, name: "Giuseppe", score: 1763, team: ["Mahmood", "Loredana Bertè", "Emma", "Dargen D'Amico", "The Kolors", "Riserva 1", "Riserva 2"] },
+      { rank: 3, name: "Antonio", score: 1741, team: ["Ricchi e Poveri", "Il Tre", "Rose Villain", "Alfa", "Gazzelle", "Riserva 1", "Riserva 2"] }
     ],
     2025: [
-      { rank: 1, name: "Antonio", score: 2102, team: ["Cantante A", "Cantante B", "Cantante C", "Cantante D", "Cantante E"] },
-      { rank: 2, name: "Giuseppe", score: 2100, team: ["Cantante F", "Cantante G", "Cantante H", "Cantante I", "Cantante J"] },
-      { rank: 3, name: "Claudia", score: 1752, team: ["Cantante K", "Cantante L", "Cantante M", "Cantante N", "Cantante O"] }
+      { rank: 1, name: "Antonio", score: 2102, team: ["Cantante A", "Cantante B", "Cantante C", "Cantante D", "Cantante E", "Riserva 1", "Riserva 2"] },
+      { rank: 2, name: "Giuseppe", score: 2100, team: ["Cantante F", "Cantante G", "Cantante H", "Cantante I", "Cantante J", "Riserva 1", "Riserva 2"] },
+      { rank: 3, name: "Claudia", score: 1752, team: ["Cantante K", "Cantante L", "Cantante M", "Cantante N", "Cantante O", "Riserva 1", "Riserva 2"] }
     ],
     2026: [
-      { rank: 1, name: "Antonio", score: 2446, team: ["Da Definire 1", "Da Definire 2", "Da Definire 3", "Da Definire 4", "Da Definire 5"] },
-      { rank: 2, name: "Matteo", score: 2339, team: ["Da Definire", "Da Definire", "Da Definire", "Da Definire", "Da Definire"] },
-      { rank: 3, name: "Giuseppe", score: 2335, team: ["Da Definire", "Da Definire", "Da Definire", "Da Definire", "Da Definire"] }
+      { rank: 1, name: "Antonio", score: 2446, team: ["Da Definire 1", "Da Definire 2", "Da Definire 3", "Da Definire 4", "Da Definire 5", "Riserva 1", "Riserva 2"] },
+      { rank: 2, name: "Matteo", score: 2339, team: ["Da Definire", "Da Definire", "Da Definire", "Da Definire", "Da Definire", "Riserva 1", "Riserva 2"] },
+      { rank: 3, name: "Giuseppe", score: 2335, team: ["Da Definire", "Da Definire", "Da Definire", "Da Definire", "Da Definire", "Riserva 1", "Riserva 2"] }
     ]
   },
   fantaeurovision: {
@@ -239,14 +239,22 @@ export default function App() {
               
               {selectedPlayer.team && selectedPlayer.team.length > 0 ? (
                 <ul className="space-y-2">
-                  {selectedPlayer.team.map((member, idx) => (
-                    <li key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-gray-700/30 border border-gray-700/50 text-gray-200">
-                      <div className="w-6 h-6 rounded-full bg-gray-600 text-xs flex items-center justify-center font-bold text-gray-300">
-                        {idx + 1}
-                      </div>
-                      <span className="font-medium">{member}</span>
-                    </li>
-                  ))}
+                  {selectedPlayer.team.map((member, idx) => {
+                    const isReserve = idx >= 5;
+                    return (
+                      <li key={idx} className={`flex items-center gap-3 p-3 rounded-xl border ${isReserve ? 'bg-gray-800/50 border-gray-700/30 border-dashed text-gray-400' : 'bg-gray-700/30 border-gray-700/50 text-gray-200'}`}>
+                        <div className={`w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold ${isReserve ? 'bg-gray-700 text-gray-500' : 'bg-gray-600 text-gray-300'}`}>
+                          {isReserve ? 'R' : idx + 1}
+                        </div>
+                        <span className="font-medium">{member}</span>
+                        {isReserve && (
+                          <span className="ml-auto text-[10px] uppercase tracking-wider font-bold text-yellow-600 border border-yellow-600/30 px-2 py-0.5 rounded-full bg-yellow-900/20">
+                            Riserva
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               ) : (
                 <div className="text-center p-6 text-gray-500 italic bg-gray-900/30 rounded-xl border border-gray-700/30">
