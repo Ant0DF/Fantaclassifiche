@@ -10,6 +10,8 @@ const Trophy = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000
 const Crown = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>);
 const Medal = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/><path d="M11 12 5.12 2.2"/><path d="m13 12 5.88-9.8"/><path d="M8 7h8"/><circle cx="12" cy="17" r="5"/><path d="M12 18v-2h-.5"/></svg>);
 const Star = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>);
+const Music = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>);
+const Sparkles = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>);
 
 // Tipi per i dati
 interface RankData {
@@ -217,44 +219,36 @@ export default function App() {
 
           {/* Tab Selector */}
           <div className="flex justify-center mb-4">
-            <div className="bg-gray-800/80 backdrop-blur-md p-2 rounded-2xl inline-flex border border-gray-700/50">
+            <div className="bg-gray-800/80 backdrop-blur-md p-1.5 rounded-2xl inline-flex border border-gray-700/50">
               <button
                 onClick={() => handleTabChange('fantasanremo')}
-                className={`relative flex items-center px-4 md:px-8 py-2 rounded-xl font-bold transition-all duration-300 ${
+                className={`relative flex items-center px-6 md:px-8 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 ${
                   activeTab === 'fantasanremo' 
-                    ? 'shadow-lg scale-105' 
-                    : 'opacity-50 hover:opacity-100 hover:bg-gray-700/50'
+                    ? 'text-white shadow-lg' 
+                    : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
                 }`}
               >
                 {activeTab === 'fantasanremo' && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/50 to-purple-600/50 rounded-xl z-0"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl z-0"></div>
                 )}
-                <span className="relative z-10 flex items-center justify-center min-w-[100px] md:min-w-[140px]">
-                  <img 
-                    src="/logo-fantasanremo.png" 
-                    alt="Fantasanremo" 
-                    className="h-20 md:h-18 w-auto object-contain drop-shadow-lg" 
-                  />
+                <span className="relative z-10 flex items-center gap-2">
+                  <Music className="w-4 h-4" /> Fantasanremo
                 </span>
               </button>
               
               <button
                 onClick={() => handleTabChange('fantaeurovision')}
-                className={`relative flex items-center px-4 md:px-8 py-2 rounded-xl font-bold transition-all duration-300 ${
+                className={`relative flex items-center px-6 md:px-8 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 ${
                   activeTab === 'fantaeurovision' 
-                    ? 'shadow-lg scale-105' 
-                    : 'opacity-50 hover:opacity-100 hover:bg-gray-700/50'
+                    ? 'text-white shadow-lg' 
+                    : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
                 }`}
               >
                 {activeTab === 'fantaeurovision' && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600/50 to-pink-600/50 rounded-xl z-0"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl z-0"></div>
                 )}
-                <span className="relative z-10 flex items-center justify-center min-w-[100px] md:min-w-[140px]">
-                  <img 
-                    src="/logo-fantaeurovision.png" 
-                    alt="Fantaeurovision" 
-                    className="h-12 md:h-16 w-auto object-contain drop-shadow-lg" 
-                  />
+                <span className="relative z-10 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" /> Fantaeurovision
                 </span>
               </button>
             </div>
