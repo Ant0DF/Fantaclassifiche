@@ -12,12 +12,15 @@ const Medal = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/
 const Star = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>);
 const Music = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>);
 const Sparkles = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>);
+const Users = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>);
+const X = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>);
 
 // Tipi per i dati
 interface RankData {
   rank: number;
   name: string;
   score: number;
+  team?: string[]; // <-- Aggiunto il campo per la squadra
 }
 
 interface CompetitionData {
@@ -31,23 +34,23 @@ interface MockData {
   fantaeurovision: CompetitionData;
 }
 
-// Dati (Mock Data)
+// Dati (Mock Data) con le Squadre aggiunte
 const mockData: MockData = {
   fantasanremo: {
     2024: [
-      { rank: 1, name: "Matteo", score: 1783 },
-      { rank: 2, name: "Giuseppe", score: 1763 },
-      { rank: 3, name: "Antonio", score: 1741 }
+      { rank: 1, name: "Matteo", score: 1783, team: ["Angelina Mango", "Geolier", "Annalisa", "Ghali", "Irama"] },
+      { rank: 2, name: "Giuseppe", score: 1763, team: ["Mahmood", "Loredana Bertè", "Emma", "Dargen D'Amico", "The Kolors"] },
+      { rank: 3, name: "Antonio", score: 1741, team: ["Ricchi e Poveri", "Il Tre", "Rose Villain", "Alfa", "Gazzelle"] }
     ],
     2025: [
-      { rank: 1, name: "Antonio", score: 2102 },
-      { rank: 2, name: "Giuseppe", score: 2100 },
-      { rank: 3, name: "Claudia", score: 1752 }
+      { rank: 1, name: "Antonio", score: 2102, team: ["Cantante A", "Cantante B", "Cantante C", "Cantante D", "Cantante E"] },
+      { rank: 2, name: "Giuseppe", score: 2100, team: ["Cantante F", "Cantante G", "Cantante H", "Cantante I", "Cantante J"] },
+      { rank: 3, name: "Claudia", score: 1752, team: ["Cantante K", "Cantante L", "Cantante M", "Cantante N", "Cantante O"] }
     ],
     2026: [
-      { rank: 1, name: "Antonio", score: 2446 },
-      { rank: 2, name: "Matteo", score: 2339 },
-      { rank: 3, name: "Giuseppe", score: 2335 }
+      { rank: 1, name: "Antonio", score: 2446, team: ["Da Definire 1", "Da Definire 2", "Da Definire 3", "Da Definire 4", "Da Definire 5"] },
+      { rank: 2, name: "Matteo", score: 2339, team: ["Da Definire", "Da Definire", "Da Definire", "Da Definire", "Da Definire"] },
+      { rank: 3, name: "Giuseppe", score: 2335, team: ["Da Definire", "Da Definire", "Da Definire", "Da Definire", "Da Definire"] }
     ]
   },
   fantaeurovision: {
@@ -57,9 +60,9 @@ const mockData: MockData = {
       { rank: 3, name: "???", score: 0 }
     ],
     2025: [
-      { rank: 1, name: "Giuseppe", score: 583 },
-      { rank: 2, name: "Antonio", score: 534 },
-      { rank: 3, name: "Matteo", score: 495 }
+      { rank: 1, name: "Giuseppe", score: 583, team: ["Svizzera (Nemo)", "Croazia (Baby Lasagna)", "Ucraina", "Italia", "Francia"] },
+      { rank: 2, name: "Antonio", score: 534, team: ["Irlanda", "Svezia", "Armenia", "Grecia", "Regno Unito"] },
+      { rank: 3, name: "Matteo", score: 495, team: ["Spagna", "Norvegia", "Austria", "Portogallo", "Finlandia"] }
     ],
     2026: [
       { rank: 1, name: "In Arrivo", score: 0 },
@@ -74,13 +77,13 @@ interface PodiumStepProps {
   name: string;
   score: number;
   delay: number;
+  onClick: () => void;
 }
 
-const PodiumStep = ({ rank, name, score, delay }: PodiumStepProps) => {
+const PodiumStep = ({ rank, name, score, delay, onClick }: PodiumStepProps) => {
   const isFirst = rank === 1;
   const isSecond = rank === 2;
 
-  // Stili condizionali in base alla posizione
   const heightClass = isFirst ? 'h-48 md:h-56' : isSecond ? 'h-36 md:h-44' : 'h-28 md:h-32';
   const colorClass = isFirst 
     ? 'bg-gradient-to-t from-yellow-600 to-yellow-400 text-yellow-950 border-yellow-300' 
@@ -92,23 +95,29 @@ const PodiumStep = ({ rank, name, score, delay }: PodiumStepProps) => {
 
   return (
     <div 
-      className={`flex flex-col items-center justify-end w-28 md:w-36 animate-slide-up-fade opacity-0 fill-mode-forwards`}
+      className="flex flex-col items-center justify-end w-28 md:w-36 animate-slide-up-fade opacity-0 fill-mode-forwards cursor-pointer group/step"
       style={{ animationDelay: `${delay}ms` }}
+      onClick={onClick}
     >
       {/* Informazioni Giocatore */}
-      <div className="flex flex-col items-center mb-4 text-center z-10 transition-transform hover:-translate-y-2 cursor-default">
-        <div className={`p-3 rounded-full mb-2 bg-gray-800/80 backdrop-blur-sm border-2 ${isFirst ? 'border-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.5)]' : isSecond ? 'border-gray-300' : 'border-orange-400'}`}>
+      <div className="flex flex-col items-center mb-4 text-center z-10 transition-all duration-300 group-hover/step:-translate-y-3 group-hover/step:scale-105">
+        <div className={`p-3 rounded-full mb-2 bg-gray-800/80 backdrop-blur-sm border-2 transition-colors ${isFirst ? 'border-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.5)] group-hover/step:bg-yellow-900/50' : isSecond ? 'border-gray-300 group-hover/step:bg-gray-700' : 'border-orange-400 group-hover/step:bg-orange-900/50'}`}>
           <Icon className={`w-6 h-6 md:w-8 md:h-8 ${isFirst ? 'text-yellow-400' : isSecond ? 'text-gray-300' : 'text-orange-400'}`} />
         </div>
         <span className="font-bold text-white text-sm md:text-base truncate w-full px-1">{name}</span>
         <span className="text-xs md:text-sm text-gray-400 font-mono mt-1 bg-gray-900/50 px-2 py-1 rounded-full border border-gray-700">
           {score} pt
         </span>
+        
+        {/* Etichetta "Vedi Squadra" che appare al passaggio del mouse */}
+        <div className="mt-2 flex items-center gap-1 text-[10px] md:text-xs font-bold text-indigo-400 opacity-0 group-hover/step:opacity-100 transition-opacity bg-indigo-900/40 px-2 py-1 rounded-full border border-indigo-500/30">
+          <Users className="w-3 h-3" /> Squadra
+        </div>
       </div>
 
       {/* Blocco Podio */}
-      <div className={`w-full ${heightClass} ${colorClass} rounded-t-lg border-t-4 shadow-lg flex items-start justify-center pt-4 relative overflow-hidden group`}>
-        <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className={`w-full ${heightClass} ${colorClass} rounded-t-lg border-t-4 shadow-lg flex items-start justify-center pt-4 relative overflow-hidden group-hover/step:brightness-110 transition-all`}>
+        <div className="absolute inset-0 bg-white/20 opacity-0 group-hover/step:opacity-100 transition-opacity duration-300"></div>
         <span className="text-3xl md:text-5xl font-black opacity-80 drop-shadow-md">
           {rank}
         </span>
@@ -120,10 +129,10 @@ const PodiumStep = ({ rank, name, score, delay }: PodiumStepProps) => {
 interface YearSectionProps {
   year: keyof CompetitionData;
   data: RankData[];
+  onPlayerClick: (player: RankData) => void;
 }
 
-const YearSection = ({ year, data }: YearSectionProps) => {
-  // Riordiniamo per il rendering visivo del podio: 2°, 1°, 3°
+const YearSection = ({ year, data, onPlayerClick }: YearSectionProps) => {
   const podiumOrder = [data[1], data[0], data[2]];
 
   return (
@@ -137,13 +146,12 @@ const YearSection = ({ year, data }: YearSectionProps) => {
       </div>
       
       <div className="bg-gray-800/40 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-gray-700/50 shadow-2xl relative overflow-hidden">
-        {/* Effetto luce di sfondo */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[200%] md:w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-gray-900/0 to-transparent pointer-events-none"></div>
 
         <div className="flex items-end justify-center gap-2 md:gap-6 pt-12 md:pt-20">
-          <PodiumStep rank={podiumOrder[0].rank} name={podiumOrder[0].name} score={podiumOrder[0].score} delay={400} />
-          <PodiumStep rank={podiumOrder[1].rank} name={podiumOrder[1].name} score={podiumOrder[1].score} delay={100} />
-          <PodiumStep rank={podiumOrder[2].rank} name={podiumOrder[2].name} score={podiumOrder[2].score} delay={700} />
+          <PodiumStep rank={podiumOrder[0].rank} name={podiumOrder[0].name} score={podiumOrder[0].score} delay={400} onClick={() => onPlayerClick(podiumOrder[0])} />
+          <PodiumStep rank={podiumOrder[1].rank} name={podiumOrder[1].name} score={podiumOrder[1].score} delay={100} onClick={() => onPlayerClick(podiumOrder[1])} />
+          <PodiumStep rank={podiumOrder[2].rank} name={podiumOrder[2].name} score={podiumOrder[2].score} delay={700} onClick={() => onPlayerClick(podiumOrder[2])} />
         </div>
       </div>
     </div>
@@ -153,6 +161,7 @@ const YearSection = ({ year, data }: YearSectionProps) => {
 export default function App() {
   const [activeTab, setActiveTab] = useState<'fantasanremo' | 'fantaeurovision'>('fantasanremo');
   const [isAnimating, setIsAnimating] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState<RankData | null>(null);
 
   const handleTabChange = (tab: 'fantasanremo' | 'fantaeurovision') => {
     if (tab === activeTab) return;
@@ -164,11 +173,10 @@ export default function App() {
   };
 
   const currentData = activeTab === 'fantasanremo' ? mockData.fantasanremo : mockData.fantaeurovision;
-  const years: (keyof CompetitionData)[] = [2026, 2025, 2024]; // Ordine decrescente
+  const years: (keyof CompetitionData)[] = [2026, 2025, 2024];
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-gray-100 font-sans selection:bg-indigo-500/30">
-      {/* Stili CSS personalizzati per animazioni */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes slideUpFade {
           0% { opacity: 0; transform: translateY(50px); }
@@ -182,19 +190,83 @@ export default function App() {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-10px); }
         }
-        .animate-slide-up-fade {
-          animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        @keyframes popIn {
+          0% { opacity: 0; transform: scale(0.9); }
+          100% { opacity: 1; transform: scale(1); }
         }
-        .animate-fade-in {
-          animation: fadeIn 0.6s ease-out forwards;
-        }
-        .animate-float {
-          animation: float 4s ease-in-out infinite;
-        }
-        .fill-mode-forwards {
-          animation-fill-mode: forwards;
-        }
+        .animate-slide-up-fade { animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-pop-in { animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .fill-mode-forwards { animation-fill-mode: forwards; }
       `}} />
+
+      {/* Modal Squadra */}
+      {selectedPlayer && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          onClick={() => setSelectedPlayer(null)}
+        >
+          <div 
+            className="bg-gray-800 border border-gray-700 rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-pop-in relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header Modal */}
+            <div className={`p-6 text-center relative ${
+              selectedPlayer.rank === 1 ? 'bg-gradient-to-br from-yellow-900/40 to-yellow-600/10' :
+              selectedPlayer.rank === 2 ? 'bg-gradient-to-br from-gray-700/40 to-gray-500/10' :
+              'bg-gradient-to-br from-orange-900/40 to-orange-600/10'
+            }`}>
+              <button 
+                onClick={() => setSelectedPlayer(null)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-900/50 p-1.5 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              <div className="inline-flex justify-center items-center p-4 rounded-full bg-gray-900/50 shadow-inner mb-3">
+                {selectedPlayer.rank === 1 ? <Crown className="w-10 h-10 text-yellow-400" /> : <Medal className={`w-10 h-10 ${selectedPlayer.rank === 2 ? 'text-gray-300' : 'text-orange-400'}`} />}
+              </div>
+              <h3 className="text-2xl font-black text-white">{selectedPlayer.name}</h3>
+              <p className="text-indigo-300 font-mono mt-1 font-semibold">{selectedPlayer.score} Punti</p>
+            </div>
+
+            {/* Lista Cantanti/Squadra */}
+            <div className="p-6 bg-gray-800">
+              <div className="flex items-center gap-2 mb-4 text-gray-400 text-sm uppercase tracking-wider font-bold">
+                <Users className="w-4 h-4" /> Formazione
+              </div>
+              
+              {selectedPlayer.team && selectedPlayer.team.length > 0 ? (
+                <ul className="space-y-2">
+                  {selectedPlayer.team.map((member, idx) => (
+                    <li key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-gray-700/30 border border-gray-700/50 text-gray-200">
+                      <div className="w-6 h-6 rounded-full bg-gray-600 text-xs flex items-center justify-center font-bold text-gray-300">
+                        {idx + 1}
+                      </div>
+                      <span className="font-medium">{member}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-center p-6 text-gray-500 italic bg-gray-900/30 rounded-xl border border-gray-700/30">
+                  Nessuna squadra disponibile.
+                </div>
+              )}
+            </div>
+            
+            {/* Pulsante Chiusura */}
+            <div className="p-4 bg-gray-900/50 border-t border-gray-700">
+              <button 
+                onClick={() => setSelectedPlayer(null)}
+                className="w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-white font-bold transition-colors"
+              >
+                Chiudi
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <header className="relative pt-20 pb-16 overflow-hidden">
@@ -260,7 +332,7 @@ export default function App() {
       <main className="container mx-auto px-4 pb-24 relative z-10">
         <div className={`transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
           {years.map(year => (
-            <YearSection key={`${activeTab}-${year}`} year={year} data={currentData[year]} />
+            <YearSection key={`${activeTab}-${year}`} year={year} data={currentData[year]} onPlayerClick={setSelectedPlayer} />
           ))}
         </div>
       </main>
