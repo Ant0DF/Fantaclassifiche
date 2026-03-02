@@ -217,45 +217,43 @@ export default function App() {
 
           {/* Tab Selector */}
           <div className="flex justify-center mb-4">
-            <div className="bg-gray-800/80 backdrop-blur-md p-1.5 rounded-2xl inline-flex border border-gray-700/50">
+            <div className="bg-gray-800/80 backdrop-blur-md p-2 rounded-2xl inline-flex border border-gray-700/50">
               <button
                 onClick={() => handleTabChange('fantasanremo')}
-                className={`relative flex items-center px-6 md:px-8 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 ${
+                className={`relative flex items-center px-4 md:px-8 py-2 rounded-xl font-bold transition-all duration-300 ${
                   activeTab === 'fantasanremo' 
-                    ? 'text-white shadow-lg' 
-                    : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+                    ? 'shadow-lg scale-105' 
+                    : 'opacity-50 hover:opacity-100 hover:bg-gray-700/50'
                 }`}
               >
                 {activeTab === 'fantasanremo' && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl z-0"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/50 to-purple-600/50 rounded-xl z-0"></div>
                 )}
-                <span className="relative z-10 flex items-center justify-center px-2 min-w-[120px]">
-                  {/* Assicurati che l'immagine si chiami esattamente così e sia nella cartella public */}
+                <span className="relative z-10 flex items-center justify-center min-w-[100px] md:min-w-[140px]">
                   <img 
                     src="/logo-fantasanremo.png" 
                     alt="Fantasanremo" 
-                    className="h-6 md:h-8 w-auto object-contain drop-shadow-md" 
+                    className="h-12 md:h-16 w-auto object-contain drop-shadow-lg" 
                   />
                 </span>
               </button>
               
               <button
                 onClick={() => handleTabChange('fantaeurovision')}
-                className={`relative flex items-center px-6 md:px-8 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 ${
+                className={`relative flex items-center px-4 md:px-8 py-2 rounded-xl font-bold transition-all duration-300 ${
                   activeTab === 'fantaeurovision' 
-                    ? 'text-white shadow-lg' 
-                    : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+                    ? 'shadow-lg scale-105' 
+                    : 'opacity-50 hover:opacity-100 hover:bg-gray-700/50'
                 }`}
               >
                 {activeTab === 'fantaeurovision' && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl z-0"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600/50 to-pink-600/50 rounded-xl z-0"></div>
                 )}
-                <span className="relative z-10 flex items-center justify-center px-2 min-w-[120px]">
-                  {/* Assicurati che l'immagine si chiami esattamente così e sia nella cartella public */}
+                <span className="relative z-10 flex items-center justify-center min-w-[100px] md:min-w-[140px]">
                   <img 
                     src="/logo-fantaeurovision.png" 
                     alt="Fantaeurovision" 
-                    className="h-6 md:h-8 w-auto object-contain drop-shadow-md" 
+                    className="h-12 md:h-16 w-auto object-contain drop-shadow-lg" 
                   />
                 </span>
               </button>
