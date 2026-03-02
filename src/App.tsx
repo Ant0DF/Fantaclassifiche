@@ -38,14 +38,14 @@ interface MockData {
 const mockData: MockData = {
   fantasanremo: {
     2024: [
-      { rank: 1, name: "Matteo", score: 1783, team: ["Angelina Mango", "Geolier", "Annalisa", "Ghali", "Irama", "Riserva 1", "Riserva 2"] },
-      { rank: 2, name: "Giuseppe", score: 1763, team: ["Mahmood", "Loredana Bertè", "Emma", "Dargen D'Amico", "The Kolors", "Riserva 1", "Riserva 2"] },
-      { rank: 3, name: "Antonio", score: 1741, team: ["Ricchi e Poveri", "Il Tre", "Rose Villain", "Alfa", "Gazzelle", "Riserva 1", "Riserva 2"] }
+      { rank: 1, name: "Matteo", score: 1783 },
+      { rank: 2, name: "Giuseppe", score: 1763 },
+      { rank: 3, name: "Antonio", score: 1741 }
     ],
     2025: [
-      { rank: 1, name: "Antonio", score: 2102, team: ["Cantante A", "Cantante B", "Cantante C", "Cantante D", "Cantante E", "Riserva 1", "Riserva 2"] },
-      { rank: 2, name: "Giuseppe", score: 2100, team: ["Cantante F", "Cantante G", "Cantante H", "Cantante I", "Cantante J", "Riserva 1", "Riserva 2"] },
-      { rank: 3, name: "Claudia", score: 1752, team: ["Cantante K", "Cantante L", "Cantante M", "Cantante N", "Cantante O", "Riserva 1", "Riserva 2"] }
+      { rank: 1, name: "Antonio", score: 2102 },
+      { rank: 2, name: "Giuseppe", score: 2100 },
+      { rank: 3, name: "Claudia", score: 1752 }
     ],
     2026: [
       { rank: 1, name: "Antonio", score: 2446, team: ["Fedez & Masini", "Ditonellapiaga", "Sal Da Vinci", "Serena Brancale", "LDA & AKA 7even", "Eddie Brock", "Sayf"] },
@@ -60,9 +60,9 @@ const mockData: MockData = {
       { rank: 3, name: "???", score: 0 }
     ],
     2025: [
-      { rank: 1, name: "Giuseppe", score: 583, team: ["Svizzera (Nemo)", "Croazia (Baby Lasagna)", "Ucraina", "Italia", "Francia"] },
-      { rank: 2, name: "Antonio", score: 534, team: ["Irlanda", "Svezia", "Armenia", "Grecia", "Regno Unito"] },
-      { rank: 3, name: "Matteo", score: 495, team: ["Spagna", "Norvegia", "Austria", "Portogallo", "Finlandia"] }
+      { rank: 1, name: "Giuseppe", score: 583 },
+      { rank: 2, name: "Antonio", score: 534 },
+      { rank: 3, name: "Matteo", score: 495 }
     ],
     2026: [
       { rank: 1, name: "In Arrivo", score: 0 },
