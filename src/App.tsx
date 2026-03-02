@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
+
+// Tipi per le icone
+interface IconProps {
+  className?: string;
+}
 
 // Componenti Icone (Senza librerie esterne per evitare errori di import)
-const Trophy = ({ className }) => (
+const Trophy = ({ className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -22,7 +27,7 @@ const Trophy = ({ className }) => (
     <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
   </svg>
 );
-const Crown = ({ className }) => (
+const Crown = ({ className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -38,7 +43,7 @@ const Crown = ({ className }) => (
     <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
   </svg>
 );
-const Medal = ({ className }) => (
+const Medal = ({ className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -59,7 +64,7 @@ const Medal = ({ className }) => (
     <path d="M12 18v-2h-.5" />
   </svg>
 );
-const Star = ({ className }) => (
+const Star = ({ className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -75,7 +80,7 @@ const Star = ({ className }) => (
     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
   </svg>
 );
-const Music = ({ className }) => (
+const Music = ({ className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -93,7 +98,7 @@ const Music = ({ className }) => (
     <circle cx="18" cy="16" r="3" />
   </svg>
 );
-const Sparkles = ({ className }) => (
+const Sparkles = ({ className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -114,8 +119,26 @@ const Sparkles = ({ className }) => (
   </svg>
 );
 
-// Dati di prova (Mock Data)
-const mockData = {
+// Tipi per i dati
+interface RankData {
+  rank: number;
+  name: string;
+  score: number;
+}
+
+interface CompetitionData {
+  2024: RankData[];
+  2025: RankData[];
+  2026: RankData[];
+}
+
+interface MockData {
+  fantasanremo: CompetitionData;
+  fantaeurovision: CompetitionData;
+}
+
+// Dati (Mock Data)
+const mockData: MockData = {
   fantasanremo: {
     2024: [
       { rank: 1, name: "Matteo", score: 1783 },
@@ -152,10 +175,16 @@ const mockData = {
   },
 };
 
-const PodiumStep = ({ rank, name, score, delay }) => {
+interface PodiumStepProps {
+  rank: number;
+  name: string;
+  score: number;
+  delay: number;
+}
+
+const PodiumStep = ({ rank, name, score, delay }: PodiumStepProps) => {
   const isFirst = rank === 1;
   const isSecond = rank === 2;
-  const isThird = rank === 3;
 
   // Stili condizionali in base alla posizione
   const heightClass = isFirst
@@ -170,11 +199,6 @@ const PodiumStep = ({ rank, name, score, delay }) => {
     : "bg-gradient-to-t from-orange-700 to-orange-400 text-orange-950 border-orange-300";
 
   const Icon = isFirst ? Crown : Medal;
-  const iconColor = isFirst
-    ? "text-yellow-200"
-    : isSecond
-    ? "text-gray-100"
-    : "text-orange-200";
 
   return (
     <div
@@ -223,7 +247,12 @@ const PodiumStep = ({ rank, name, score, delay }) => {
   );
 };
 
-const YearSection = ({ year, data }) => {
+interface YearSectionProps {
+  year: keyof CompetitionData;
+  data: RankData[];
+}
+
+const YearSection = ({ year, data }: YearSectionProps) => {
   // Riordiniamo per il rendering visivo del podio: 2°, 1°, 3°
   const podiumOrder = [data[1], data[0], data[2]];
 
@@ -267,10 +296,12 @@ const YearSection = ({ year, data }) => {
 };
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState("fantasanremo");
+  const [activeTab, setActiveTab] = useState<
+    "fantasanremo" | "fantaeurovision"
+  >("fantasanremo");
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const handleTabChange = (tab) => {
+  const handleTabChange = (tab: "fantasanremo" | "fantaeurovision") => {
     if (tab === activeTab) return;
     setIsAnimating(true);
     setTimeout(() => {
@@ -283,7 +314,7 @@ export default function App() {
     activeTab === "fantasanremo"
       ? mockData.fantasanremo
       : mockData.fantaeurovision;
-  const years = [2026, 2025, 2024]; // Ordine decrescente
+  const years: (keyof CompetitionData)[] = [2026, 2025, 2024]; // Ordine decrescente
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-gray-100 font-sans selection:bg-indigo-500/30">
@@ -409,3 +440,4 @@ export default function App() {
     </div>
   );
 }
+
