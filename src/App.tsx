@@ -11,6 +11,7 @@ const Users = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/
 const X = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>);
 const Share2 = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>);
 const Check = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"/></svg>);
+const CalendarIcon = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>);
 
 // --- COMPONENTE ANIMAZIONE NUMERI ---
 const AnimatedNumber = ({ value }: { value: number }) => {
@@ -41,7 +42,7 @@ const AnimatedNumber = ({ value }: { value: number }) => {
 // --- DATI ---
 const eventConfig = {
   title: "Eurovision Song Contest 2026",
-  dates: "12 - 14 - 16 maggio 2026",
+  dates: "12 - 14 - 16 MAGGIO 2026",
   isOngoing: false 
 };
 
@@ -114,48 +115,48 @@ const PodiumStep = ({ rank, name, score, delay, isSanremo, onClick }: PodiumStep
   const isFirst = rank === 1;
   const isSecond = rank === 2;
   
-  // Ottimizzazione mobile: Dimensioni più fluide per schermi stretti
-  const cardHeight = isFirst ? 'h-[260px] md:h-[320px] w-[110px] sm:w-36 md:w-48' : 'h-[200px] md:h-[260px] w-[95px] sm:w-28 md:w-40';
-  const cardBg = isSanremo ? 'bg-[#15203c]/90' : 'bg-[#2a1b42]/90';
+  // Dimensioni ottimizzate per eliminare l'effetto "stretto e alto"
+  const cardHeight = isFirst ? 'h-[230px] sm:h-[280px] md:h-[320px] w-[120px] sm:w-[150px] md:w-48' : 'h-[190px] sm:h-[230px] md:h-[260px] w-[105px] sm:w-[130px] md:w-40';
   
-  // Colori delle medaglie/bordi
+  // Sfondo solido trasparente, niente blur pesanti
+  const cardBg = isSanremo ? 'bg-[#15203c]' : 'bg-[#2a1b42]';
+  
+  // Colori bordi e testi
   const rankColor = isFirst ? 'text-[#facc15] border-[#facc15]/50' : isSecond ? 'text-[#e2e8f0] border-[#e2e8f0]/30' : 'text-[#f97316] border-[#f97316]/30';
+  const glowClass = isFirst ? 'animate-winner-glow' : '';
   
   const Icon = isFirst ? Crown : Medal;
 
   return (
     <div 
-      className={`relative flex flex-col items-center justify-end animate-slide-up-fade opacity-0 fill-mode-forwards cursor-pointer group/step z-10 ${isFirst ? 'mx-1 sm:mx-2 md:mx-4' : ''}`}
+      className={`relative flex flex-col items-center justify-end animate-slide-up-fade opacity-0 fill-mode-forwards cursor-pointer group/step z-10 ${isFirst ? 'mx-2 sm:mx-3 md:mx-4' : ''}`}
       style={{ animationDelay: `${delay}ms` }}
       onClick={onClick}
     >
-      {/* EFFETTO AURA DINAMICA VINCITORE */}
-      {isFirst && (
-        <div className="absolute -inset-1.5 rounded-[2.2rem] bg-[#facc15]/30 blur-md winner-glow-layer -z-10 pointer-events-none"></div>
-      )}
-
       {/* Card del Giocatore */}
-      <div className={`relative flex flex-col items-center justify-center p-2 sm:p-4 rounded-[1.5rem] sm:rounded-[2rem] border transition-transform duration-300 backdrop-blur-md hover:-translate-y-2 ${cardHeight} ${cardBg} ${rankColor}`}>
+      <div className={`relative flex flex-col items-center p-2 sm:p-4 rounded-[1.5rem] sm:rounded-[2rem] border transition-transform duration-300 hover:-translate-y-2 ${cardHeight} ${cardBg} ${rankColor} ${glowClass}`}>
         
-        {/* Numero Posizione in background trasparente */}
-        <div className="absolute top-3 left-3 sm:top-4 sm:left-4 text-2xl sm:text-4xl font-black opacity-10 pointer-events-none">{rank}°</div>
+        {/* Numero Posizione in background */}
+        <div className="absolute top-2 left-3 sm:top-4 sm:left-4 text-2xl sm:text-4xl font-black opacity-10 pointer-events-none">{rank}°</div>
 
         {/* Icona (Corona/Medaglia) centrale */}
-        <div className={`p-2 sm:p-4 rounded-full mb-3 sm:mb-4 bg-gradient-to-b from-white/10 to-transparent border ${isFirst ? 'border-yellow-400/50' : 'border-white/10'}`}>
+        <div className={`p-2 sm:p-4 rounded-full mt-4 sm:mt-2 mb-2 sm:mb-4 bg-gradient-to-b from-white/10 to-transparent border ${isFirst ? 'border-yellow-400/50' : 'border-white/10'}`}>
           <Icon className={`w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 ${isFirst ? 'text-[#facc15] drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]' : isSecond ? 'text-slate-300' : 'text-orange-400'}`} />
         </div>
 
         {/* Nome Giocatore */}
-        <span className="font-bold text-white text-sm sm:text-base md:text-xl truncate w-full text-center px-1 mb-1 sm:mb-2">{name}</span>
+        <span className="font-bold text-white text-sm sm:text-base md:text-xl truncate w-full text-center px-1 mb-1">{name}</span>
         
-        {/* Punteggio stile Fantasanremo (es. +2446 pt.) */}
+        {/* Punteggio stile Fantasanremo */}
         <span className={`text-[10px] sm:text-xs md:text-sm font-bold tracking-wide ${isSanremo ? 'text-[#10b981]' : 'text-[#f472b6]'}`}>
           +{score} pt.
         </span>
 
-        {/* Etichetta hover "Squadra" */}
-        <div className={`absolute bottom-3 sm:bottom-4 flex items-center gap-1 text-[9px] sm:text-[10px] md:text-xs font-bold opacity-100 md:opacity-0 group-hover/step:opacity-100 transition-opacity px-2 sm:px-3 py-1 sm:py-1.5 rounded-full bg-white/10 text-white backdrop-blur-md`}>
-          <Users className="w-3 h-3 hidden sm:block" /> Squadra
+        {/* Etichetta Squadra (Ancorata sempre in basso) */}
+        <div className="mt-auto mb-2 sm:mb-1">
+          <div className="flex items-center gap-1 text-[9px] sm:text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full bg-white/10 text-white/80 group-hover/step:bg-white/20 group-hover/step:text-white transition-colors">
+            <Users className="w-3 h-3 hidden sm:block" /> Squadra
+          </div>
         </div>
       </div>
     </div>
@@ -200,7 +201,7 @@ export default function App() {
   const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
-    document.title = "Classifiche Fanta";
+    document.title = "Classifiche Fantasanremo e Fantaeurovision";
   }, []);
 
   const handleTabChange = (tab: 'fantasanremo' | 'fantaeurovision') => {
@@ -232,32 +233,30 @@ export default function App() {
 
   const isSanremo = activeTab === 'fantasanremo';
 
-  // --- COLORI TEMA "FANTA" ---
-  const bgMain = isSanremo ? 'bg-[#091125]' : 'bg-[#120a1c]';
-  const glowTop = isSanremo ? 'bg-blue-600/10' : 'bg-purple-600/10';
-  const glowBottom = isSanremo ? 'bg-cyan-600/10' : 'bg-pink-600/10';
-  const bannerBg = isSanremo ? 'bg-[#131e3d]' : 'bg-[#25153b]';
-  const bannerIconColor = isSanremo ? 'text-[#facc15]' : 'text-[#f472b6]';
-  
-  // Colore di sfondo della barra sticky per fargli prendere lo stesso colore del tema
-  const stickyBg = isSanremo ? 'bg-[#091125]/90' : 'bg-[#120a1c]/90';
+  // Sfondi in base al tema calcolati in modo ultra-leggero (CSS Gradient)
+  const bgMain = isSanremo ? '#091125' : '#120a1c';
+  const radialGradient = isSanremo 
+    ? 'radial-gradient(circle at 20% 0%, rgba(37,99,235,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 100%, rgba(6,182,212,0.1) 0%, transparent 50%)'
+    : 'radial-gradient(circle at 20% 0%, rgba(147,51,234,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 100%, rgba(236,72,153,0.1) 0%, transparent 50%)';
 
   return (
-    <div className={`min-h-screen ${bgMain} text-gray-100 selection:bg-white/20 relative pb-12 transition-colors duration-1000 overflow-x-hidden`}>
-      
+    <div 
+      className="min-h-screen text-gray-100 selection:bg-white/20 relative pb-12 transition-colors duration-1000 overflow-x-hidden"
+      style={{ backgroundColor: bgMain, backgroundImage: radialGradient }}
+    >
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap');
-        html, body { background-color: ${isSanremo ? '#091125' : '#120a1c'}; margin: 0; padding: 0; overscroll-behavior-y: none; font-family: 'Outfit', sans-serif; transition: background-color 1s ease; }
+        html, body { background-color: #091125; margin: 0; padding: 0; overscroll-behavior-y: none; font-family: 'Outfit', sans-serif; }
         
         @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
         @keyframes popIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes winnerBreathing { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 15px rgba(250,204,21,0.2); } 50% { box-shadow: 0 0 35px rgba(250,204,21,0.5); } }
         
         .animate-slide-up-fade { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         .animate-pop-in { animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .winner-glow-layer { animation: winnerBreathing 3s ease-in-out infinite; }
+        .animate-winner-glow { animation: pulseGlow 3s ease-in-out infinite; }
         .fill-mode-forwards { animation-fill-mode: forwards; }
         
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
@@ -265,13 +264,9 @@ export default function App() {
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
       `}} />
 
-      {/* Sfondi Glow Diffusi */}
-      <div className={`absolute top-0 left-1/4 w-[800px] h-[800px] rounded-full blur-[120px] pointer-events-none transition-colors duration-1000 ${glowTop}`}></div>
-      <div className={`absolute bottom-0 right-1/4 w-[800px] h-[800px] rounded-full blur-[120px] pointer-events-none transition-colors duration-1000 ${glowBottom}`}></div>
-
       {/* --- MODAL SQUADRA --- */}
       {selectedPlayer && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedPlayer(null)}>
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/80 animate-fade-in" onClick={() => setSelectedPlayer(null)}>
           <div className="bg-[#111827] border border-white/10 rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-pop-in relative" onClick={(e) => e.stopPropagation()}>
             <div className="p-8 text-center relative bg-gradient-to-b from-white/5 to-transparent">
               <button onClick={() => setSelectedPlayer(null)} className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"><X className="w-6 h-6" /></button>
@@ -303,75 +298,81 @@ export default function App() {
       )}
 
       {/* --- INTESTAZIONE E TITOLO --- */}
-      <header className="relative pt-6 md:pt-10 z-20">
-        <div className="container mx-auto px-4 flex flex-col items-center">
+      <header className="relative pt-8 md:pt-12 z-20">
+        <div className="container mx-auto px-4 flex flex-col items-center relative">
           
-          <button onClick={handleShare} className="absolute top-6 right-6 flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 text-xs font-bold transition-all text-white/80 hover:text-white">
-            {isCopied ? <Check className="w-4 h-4 text-[#10b981]" /> : <Share2 className="w-4 h-4" />} <span className="hidden sm:inline">{isCopied ? 'Copiato!' : 'Condividi'}</span>
+          <button onClick={handleShare} className="absolute top-0 right-2 sm:right-6 flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] md:text-xs font-bold transition-all text-white/80 hover:text-white">
+            {isCopied ? <Check className="w-3 h-3 md:w-4 md:h-4 text-[#10b981]" /> : <Share2 className="w-3 h-3 md:w-4 md:h-4" />} <span className="hidden sm:inline">{isCopied ? 'Copiato!' : 'Condividi'}</span>
           </button>
 
-          <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-6 md:mb-8 text-center drop-shadow-md px-2">
+          <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-6 md:mb-8 text-center drop-shadow-md px-2 leading-tight">
             Classifiche <br className="md:hidden" />Fantasanremo <br className="md:hidden" />e Fantaeurovision
           </h1>
         </div>
       </header>
 
       {/* --- MENU SELETTORE STICKY --- */}
-      <div className="sticky top-0 z-50 w-full flex justify-center py-4 pointer-events-none">
-        <div className={`px-6 py-2 rounded-[2rem] inline-flex border border-white/10 shadow-2xl pointer-events-auto gap-8 md:gap-12 transition-colors duration-1000 backdrop-blur-lg ${stickyBg}`}>
-          <button onClick={() => handleTabChange('fantasanremo')} className="group flex flex-col items-center gap-1.5 md:gap-2 relative">
-            <div className={`p-2 md:p-3 rounded-xl transition-all duration-300 ${isSanremo ? 'text-[#facc15]' : 'text-white/40 group-hover:text-white/80'}`}>
-              <Music className="w-5 h-5 md:w-6 md:h-6" />
+      <div className="sticky top-4 z-50 w-full flex justify-center pb-6 pointer-events-none px-4">
+        <div className="bg-[#1a233a] rounded-full p-1 md:p-1.5 flex items-center border border-white/10 shadow-2xl pointer-events-auto w-full max-w-sm">
+          
+          <button 
+            onClick={() => handleTabChange('fantasanremo')} 
+            className="flex-1 group flex flex-col items-center relative py-2 md:py-3 rounded-full transition-colors"
+          >
+            <div className={`transition-all duration-300 ${isSanremo ? 'text-[#facc15]' : 'text-white/40 group-hover:text-white/80'}`}>
+              <Music className="w-4 h-4 md:w-5 md:h-5 mb-1" />
             </div>
-            <span className={`text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors ${isSanremo ? 'text-white' : 'text-white/40 group-hover:text-white/80'}`}>Fantasanremo</span>
-            {isSanremo && <div className="absolute -bottom-3 w-8 h-1 rounded-full bg-[#facc15] shadow-[0_0_10px_rgba(250,204,21,0.5)]"></div>}
+            <span className={`text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-colors ${isSanremo ? 'text-white' : 'text-white/40 group-hover:text-white/80'}`}>Fantasanremo</span>
+            {isSanremo && <div className="absolute bottom-0 w-8 h-[3px] rounded-full bg-[#facc15]"></div>}
           </button>
 
-          <button onClick={() => handleTabChange('fantaeurovision')} className="group flex flex-col items-center gap-1.5 md:gap-2 relative">
-            <div className={`p-2 md:p-3 rounded-xl transition-all duration-300 ${!isSanremo ? 'text-[#f472b6]' : 'text-white/40 group-hover:text-white/80'}`}>
-              <Sparkles className="w-5 h-5 md:w-6 md:h-6" />
+          <button 
+            onClick={() => handleTabChange('fantaeurovision')} 
+            className="flex-1 group flex flex-col items-center relative py-2 md:py-3 rounded-full transition-colors"
+          >
+            <div className={`transition-all duration-300 ${!isSanremo ? 'text-[#f472b6]' : 'text-white/40 group-hover:text-white/80'}`}>
+              <Sparkles className="w-4 h-4 md:w-5 md:h-5 mb-1" />
             </div>
-            <span className={`text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors ${!isSanremo ? 'text-white' : 'text-white/40 group-hover:text-white/80'}`}>Fantaeurovision</span>
-            {!isSanremo && <div className="absolute -bottom-3 w-8 h-1 rounded-full bg-[#f472b6] shadow-[0_0_10px_rgba(244,114,182,0.5)]"></div>}
+            <span className={`text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-colors ${!isSanremo ? 'text-white' : 'text-white/40 group-hover:text-white/80'}`}>Fantaeurovision</span>
+            {!isSanremo && <div className="absolute bottom-0 w-8 h-[3px] rounded-full bg-[#f472b6]"></div>}
           </button>
+
         </div>
       </div>
 
       {/* --- MAIN CONTENT --- */}
-      <main className="container mx-auto px-4 relative z-10 pt-6">
+      <main className="container mx-auto px-4 relative z-10 pt-2">
         
-        {/* Banner Evento Corretto (Layout ottimizzato per Mobile) */}
-        <div className="max-w-xl mx-auto mb-16 animate-fade-in relative transition-all duration-500 px-2 sm:px-0">
-          <div className={`flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 md:p-5 rounded-[1.5rem] shadow-xl border border-white/5 backdrop-blur-md ${bannerBg} gap-4 sm:gap-3`}>
-            
-            <div className="flex items-center gap-4 w-full">
-              <div className={`flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/5 border border-white/10 flex-shrink-0 ${bannerIconColor}`}>
+        {/* Banner Evento Corretto */}
+        <div className="max-w-xl mx-auto mb-16 animate-fade-in relative transition-all duration-500">
+          <div className="bg-[#1c2438] rounded-[1.5rem] p-4 md:p-5 shadow-lg border border-white/5">
+            <div className="flex items-center gap-4 mb-4">
+              <div className={`flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border border-blue-500/30 flex-shrink-0 ${isSanremo ? 'text-blue-400 bg-blue-500/10' : 'text-purple-400 bg-purple-500/10'}`}>
                 {eventConfig.isOngoing ? (
                    <div className="relative flex h-3 w-3">
                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                      <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                    </div>
-                ) : <Trophy className="w-5 h-5 md:w-6 md:h-6" />}
+                ) : <CalendarIcon className="w-5 h-5 md:w-6 md:h-6" />}
               </div>
               <div className="flex-1 min-w-0">
-                <p className={`text-[10px] md:text-xs font-black uppercase tracking-widest mb-0.5 ${eventConfig.isOngoing ? 'text-red-400' : 'text-white/50'}`}>
-                  {eventConfig.isOngoing ? '🔴 Evento in corso' : 'Prossimo evento'}
+                <p className={`text-[10px] md:text-xs font-bold uppercase tracking-widest mb-0.5 ${eventConfig.isOngoing ? 'text-red-400' : 'text-blue-300'}`}>
+                  {eventConfig.isOngoing ? '🔴 Evento in corso' : 'PROSSIMO EVENTO'}
                 </p>
                 <p className="text-white font-bold text-sm md:text-lg tracking-wide truncate">{eventConfig.title}</p>
               </div>
             </div>
             
-            {/* Tag Data/Stato incorporato dentro il banner per tutti gli schermi */}
+            {/* Tag Data sempre interno alla card */}
             {!eventConfig.isOngoing && (
-              <div className="flex bg-white/5 px-4 py-2 rounded-full border border-white/5 w-full sm:w-auto justify-center sm:justify-start">
-                <p className="text-white/60 text-[10px] sm:text-xs font-bold tracking-widest uppercase">{eventConfig.dates}</p>
+              <div className="bg-[#111827] rounded-xl py-2 md:py-3 text-center border border-white/5 w-full">
+                <p className="text-gray-300 text-[10px] sm:text-xs font-bold tracking-widest uppercase">{eventConfig.dates}</p>
               </div>
             )}
-
           </div>
         </div>
         
-        {/* Renderizziamo le classifiche */}
+        {/* Classifiche */}
         <div className={`transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
           {years.map(year => <YearSection key={`${activeTab}-${year}`} year={year} data={currentData[year]} isSanremo={isSanremo} onPlayerClick={setSelectedPlayer} />)}
         </div>
