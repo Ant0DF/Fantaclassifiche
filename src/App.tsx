@@ -19,6 +19,7 @@ const Calendar = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/20
 const ChevronUp = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m18 15-6-6-6 6"/></svg>);
 const Share2 = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>);
 const Check = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"/></svg>);
+const Clock = ({ className }: IconProps) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>);
 
 
 // --- COMPONENTE PER L'ANIMAZIONE DEI NUMERI ---
@@ -47,6 +48,59 @@ const AnimatedNumber = ({ value }: { value: number }) => {
   return <>{displayValue}</>;
 };
 
+// --- COMPONENTE COUNTDOWN ---
+const EventCountdown = ({ startDateStr }: { startDateStr: string }) => {
+  const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | null>(null);
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const difference = +new Date(startDateStr) - +new Date();
+      
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        });
+      } else {
+        setTimeLeft(null); // Evento iniziato
+      }
+    };
+
+    calculateTimeLeft(); // Prima chiamata immediata
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timer);
+  }, [startDateStr]);
+
+  if (!timeLeft) return null;
+
+  // Se mancano più di 30 giorni, mostra solo i giorni
+  if (timeLeft.days > 30) {
+    return (
+      <div className="flex items-center gap-1.5 text-indigo-300 font-mono text-sm bg-indigo-950/40 px-2.5 py-1 rounded-lg border border-indigo-500/20">
+        <Clock className="w-3.5 h-3.5" />
+        <span>-{timeLeft.days} giorni</span>
+      </div>
+    );
+  }
+
+  // Altrimenti mostra il countdown completo
+  return (
+    <div className="flex items-center gap-1.5 text-indigo-300 font-mono text-xs sm:text-sm bg-indigo-950/40 px-2.5 py-1 rounded-lg border border-indigo-500/20">
+      <Clock className="w-3.5 h-3.5" />
+      <span className="font-bold">{String(timeLeft.days).padStart(2, '0')}g</span>
+      <span>:</span>
+      <span className="font-bold">{String(timeLeft.hours).padStart(2, '0')}h</span>
+      <span>:</span>
+      <span className="font-bold">{String(timeLeft.minutes).padStart(2, '0')}m</span>
+      <span className="hidden sm:inline">:</span>
+      <span className="hidden sm:inline font-bold">{String(timeLeft.seconds).padStart(2, '0')}s</span>
+    </div>
+  );
+};
+
 // --- DATI ---
 interface RankData {
   rank: number;
@@ -67,10 +121,23 @@ interface MockData {
   fantaeurovision: CompetitionData;
 }
 
+// Configurazione Automatica Evento
 const eventConfig = {
   title: "Eurovision Song Contest 2026",
   dates: "12 - 14 - 16 maggio 2026",
+  startDateISO: "2026-05-12T21:00:00+02:00", // Data e ora di inizio per il countdown (ore 21:00)
   isOngoing: false 
+};
+
+// Funzione per determinare se l'evento è in corso in base alla data
+const isEventOngoing = () => {
+  const today = new Date();
+  
+  // Date dell'Eurovision 2026: Inizio 12 Maggio, Fine 16 Maggio
+  const startDate = new Date('2026-05-12T00:00:00');
+  const endDate = new Date('2026-05-16T23:59:59'); // Includiamo tutto il 16 maggio
+
+  return today >= startDate && today <= endDate;
 };
 
 const mockData: MockData = {
@@ -247,9 +314,12 @@ export default function App() {
   const [selectedPlayer, setSelectedPlayer] = useState<RankData | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [isEventLive, setIsEventLive] = useState(false);
 
   useEffect(() => {
     document.title = "Classifiche Fanta";
+    
+    setIsEventLive(isEventOngoing());
     
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 400);
@@ -467,23 +537,31 @@ export default function App() {
 
         {/* Banner Prossimo Evento */}
         <div className="max-w-2xl mx-auto mb-12 animate-fade-in relative group cursor-default">
-          <div className={`absolute -inset-1 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 ${eventConfig.isOngoing ? 'bg-red-500 animate-pulse' : (isSanremo ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-purple-500 to-fuchsia-500')}`}></div>
+          <div className={`absolute -inset-1 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 ${isEventLive ? 'bg-red-500 animate-pulse' : (isSanremo ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-purple-500 to-fuchsia-500')}`}></div>
           <div className="relative p-3 sm:p-4 rounded-2xl bg-gray-800 border border-gray-700/50 backdrop-blur-xl">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
               <div className="flex items-center gap-3 sm:gap-4 w-full">
-                {eventConfig.isOngoing ? (
+                {isEventLive ? (
                   <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-red-500/20 border border-red-500/30 flex-shrink-0 transition-colors duration-500">
                     <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 animate-ping absolute"></div>
                     <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 relative"></div>
                   </div>
                 ) : <div className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full flex-shrink-0 transition-colors duration-500 ${isSanremo ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-purple-500/20 text-purple-400 border-purple-500/30'}`}><Calendar className="w-5 h-5 sm:w-6 sm:h-6" /></div>}
                 <div className="flex-1 min-w-0 text-left">
-                  <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5 sm:mb-1 transition-colors duration-500 ${eventConfig.isOngoing ? 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]' : (isSanremo ? 'text-blue-400' : 'text-purple-400')}`}>{eventConfig.isOngoing ? '🔴 Evento in corso' : 'Prossimo evento'}</p>
+                  <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5 sm:mb-1 transition-colors duration-500 ${isEventLive ? 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]' : (isSanremo ? 'text-blue-400' : 'text-purple-400')}`}>{isEventLive ? '🔴 Evento in corso' : 'Prossimo evento'}</p>
                   <p className="text-white font-bold text-sm sm:text-lg leading-tight truncate sm:whitespace-normal">{eventConfig.title}</p>
+                  
+                  {/* Inserimento del componente Countdown */}
+                  {!isEventLive && (
+                    <div className="mt-1 sm:mt-1.5 inline-block">
+                      <EventCountdown startDateStr={eventConfig.startDateISO} />
+                    </div>
+                  )}
+
                 </div>
               </div>
-              {!eventConfig.isOngoing && (
-                <div className="w-full sm:w-auto bg-gray-900 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-gray-700 text-center flex-shrink-0">
+              {!isEventLive && (
+                <div className="w-full sm:w-auto bg-gray-900 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-gray-700 text-center flex-shrink-0 mt-2 sm:mt-0">
                   <p className="text-gray-300 text-xs sm:text-sm font-medium">{eventConfig.dates}</p>
                 </div>
               )}
