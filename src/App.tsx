@@ -68,7 +68,7 @@ const EventCountdown = ({ startDateStr }: { startDateStr: string }) => {
       }
     };
 
-    calculateTimeLeft(); // Prima chiamata immediata
+    calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(timer);
@@ -76,7 +76,6 @@ const EventCountdown = ({ startDateStr }: { startDateStr: string }) => {
 
   if (!timeLeft) return null;
 
-  // Se mancano più di 30 giorni, mostra solo i giorni
   if (timeLeft.days > 30) {
     return (
       <div className="flex items-center gap-1.5 text-indigo-300 font-mono text-sm bg-indigo-950/40 px-2.5 py-1 rounded-lg border border-indigo-500/20">
@@ -86,7 +85,6 @@ const EventCountdown = ({ startDateStr }: { startDateStr: string }) => {
     );
   }
 
-  // Altrimenti mostra il countdown completo
   return (
     <div className="flex items-center gap-1.5 text-indigo-300 font-mono text-xs sm:text-sm bg-indigo-950/40 px-2.5 py-1 rounded-lg border border-indigo-500/20">
       <Clock className="w-3.5 h-3.5" />
@@ -107,7 +105,7 @@ interface RankData {
   name: string;
   score: number;
   team?: string[];
-  teamStatus?: 'coming_soon'; // Aggiunto stato per le squadre in arrivo
+  teamStatus?: 'coming_soon';
 }
 
 interface CompetitionData {
@@ -125,18 +123,15 @@ interface MockData {
 const eventConfig = {
   title: "Eurovision Song Contest 2026",
   dates: "12 - 14 - 16 maggio 2026",
-  startDateISO: "2026-05-12T21:00:00+02:00", // Data e ora di inizio per il countdown (ore 21:00)
+  startDateISO: "2026-05-12T21:00:00+02:00",
   isOngoing: false 
 };
 
-// Funzione per determinare se l'evento è in corso in base alla data
+// Funzione per determinare se l'evento è in corso
 const isEventOngoing = () => {
   const today = new Date();
-  
-  // Date dell'Eurovision 2026: Inizio 12 Maggio, Fine 16 Maggio
   const startDate = new Date('2026-05-12T00:00:00');
-  const endDate = new Date('2026-05-16T23:59:59'); // Includiamo tutto il 16 maggio
-
+  const endDate = new Date('2026-05-16T23:59:59');
   return today >= startDate && today <= endDate;
 };
 
@@ -165,9 +160,9 @@ const mockData: MockData = {
       { rank: 3, name: "???", score: 0 }
     ],
     2025: [
-      { rank: 1, name: "Giuseppe", score: 583 }, // Rimosso team
-      { rank: 2, name: "Antonio", score: 534 }, // Rimosso team
-      { rank: 3, name: "Matteo", score: 495 }  // Rimosso team
+      { rank: 1, name: "Giuseppe", score: 583 },
+      { rank: 2, name: "Antonio", score: 534 },
+      { rank: 3, name: "Matteo", score: 495 }
     ],
     2026: [
       { rank: 1, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' },
@@ -177,7 +172,7 @@ const mockData: MockData = {
   }
 };
 
-// Dati speciali solo per le Fantaolimpiadi
+// Dati speciali Fantaolimpiadi aggiornati!
 const fantaolimpiadiData: RankData[] = [
   { rank: 1, name: "Matteo", score: 11513, team: ["Stati Uniti", "Cina", "Francia", "Ucraina", "Italia"] },
   { rank: 2, name: "Luca", score: 9898, team: ["Norvegia", "Stati Uniti", "Italia", "Germania", "Canada"] },
@@ -246,28 +241,29 @@ const PodiumStep = ({ rank, name, score, delay, themeColor, hasTeam, onClick }: 
 
   return (
     <div 
-      className={`flex flex-col items-center justify-end w-28 md:w-36 animate-slide-up-fade opacity-0 fill-mode-forwards ${hasTeam ? 'cursor-pointer group' : ''}`}
+      className={`flex flex-col items-center justify-end w-[30%] sm:w-28 md:w-36 lg:w-32 xl:w-36 animate-slide-up-fade opacity-0 fill-mode-forwards ${hasTeam ? 'cursor-pointer group' : ''}`}
       style={{ animationDelay: `${delay}ms` }}
       onClick={hasTeam ? onClick : undefined}
     >
-      <div className={`flex flex-col items-center mb-4 text-center z-10 transition-transform duration-300 ${hasTeam ? 'hover:-translate-y-2 group-hover:scale-105' : ''}`}>
-        <div className={`p-3 rounded-full mb-2 bg-gray-800/80 backdrop-blur-sm border-2 ${isFirst ? 'border-yellow-400 animate-winner-glow' : isSecond ? 'border-gray-300' : 'border-orange-400'}`}>
-          <Icon className={`w-6 h-6 md:w-8 md:h-8 ${isFirst ? 'text-yellow-400' : isSecond ? 'text-gray-300' : 'text-orange-400'}`} />
+      <div className={`flex flex-col items-center mb-2 sm:mb-4 text-center z-10 transition-transform duration-300 ${hasTeam ? 'hover:-translate-y-2 group-hover:scale-105' : ''}`}>
+        {/* Qui abbiamo mantenuto il "winner-glow" lieve sul cerchietto! */}
+        <div className={`p-2.5 sm:p-3 rounded-full mb-1.5 sm:mb-2 bg-gray-800/80 backdrop-blur-sm border-2 ${isFirst ? 'border-yellow-400 animate-winner-glow' : isSecond ? 'border-gray-300' : 'border-orange-400'}`}>
+          <Icon className={`w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 ${isFirst ? 'text-yellow-400' : isSecond ? 'text-gray-300' : 'text-orange-400'}`} />
         </div>
-        <span className="font-bold text-white text-sm md:text-base truncate w-full px-1">{name}</span>
-        <span className="text-xs md:text-sm text-gray-400 font-mono mt-1 bg-gray-900/50 px-2 py-1 rounded-full border border-gray-700">
+        <span className="font-bold text-white text-[11px] sm:text-sm md:text-base truncate w-full px-1">{name}</span>
+        <span className="text-[10px] sm:text-xs md:text-sm text-gray-400 font-mono mt-1 bg-gray-900/50 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full border border-gray-700">
           {score} pt
         </span>
-        {/* Mostra il badge Squadra SOLO se ci sono dati disponibili O se lo stato è in arrivo */}
         {hasTeam && (
-          <div className={`mt-2 flex items-center gap-1 text-[10px] md:text-xs font-bold opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1 rounded-full border ${tagColor}`}>
-            <Users className="w-3 h-3" /> Squadra
+          <div className={`mt-1.5 sm:mt-2 flex items-center gap-1 text-[9px] sm:text-[10px] md:text-xs font-bold opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full border ${tagColor}`}>
+            <Users className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> <span className="hidden sm:inline">Squadra</span>
           </div>
         )}
       </div>
-      <div className={`w-full ${heightClass} ${colorClass} rounded-t-lg border-t-4 shadow-lg flex items-start justify-center pt-4 relative overflow-hidden transition-all ${isFirst ? 'z-10' : ''}`}>
+      {/* Il piedistallo non ha più il bagliore esagerato */}
+      <div className={`w-full ${heightClass} ${colorClass} rounded-t-lg border-t-2 sm:border-t-4 shadow-lg flex items-start justify-center pt-2 sm:pt-4 relative overflow-hidden transition-all ${isFirst ? 'z-10' : ''}`}>
         <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        <span className="text-3xl md:text-5xl font-black opacity-80 drop-shadow-md">{rank}</span>
+        <span className="text-2xl sm:text-3xl md:text-5xl font-black opacity-80 drop-shadow-md">{rank}</span>
       </div>
     </div>
   );
@@ -288,17 +284,17 @@ const YearSection = ({ year, data, themeColor = 'blue', onPlayerClick }: YearSec
   const radialGlow = themeColor === 'green' ? 'from-green-900/20' : themeColor === 'purple' ? 'from-purple-900/20' : 'from-blue-900/20';
 
   return (
-    <div className="mb-16 animate-fade-in">
-      <div className="flex items-center justify-center gap-3 mb-8">
-        <div className={`h-px w-12 md:w-24 bg-gradient-to-r from-transparent ${fromColor}`}></div>
-        <h2 className={`text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r ${fromColor} ${toColor} drop-shadow-sm`}>
+    <div className="mb-12 sm:mb-16 animate-fade-in">
+      <div className="flex items-center justify-center gap-3 mb-6 sm:mb-8">
+        <div className={`h-px w-8 sm:w-12 md:w-24 bg-gradient-to-r from-transparent ${fromColor}`}></div>
+        <h2 className={`text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r ${fromColor} ${toColor} drop-shadow-sm`}>
           Edizione {year}
         </h2>
-        <div className={`h-px w-12 md:w-24 bg-gradient-to-l from-transparent ${toColor}`}></div>
+        <div className={`h-px w-8 sm:w-12 md:w-24 bg-gradient-to-l from-transparent ${toColor}`}></div>
       </div>
-      <div className="bg-gray-800/40 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-gray-700/50 shadow-2xl relative overflow-hidden">
+      <div className="bg-gray-800/40 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 border border-gray-700/50 shadow-2xl relative overflow-hidden">
         <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[200%] md:w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] ${radialGlow} via-gray-900/0 to-transparent pointer-events-none`}></div>
-        <div className="flex items-end justify-center gap-2 md:gap-6 pt-12 md:pt-20">
+        <div className="flex items-end justify-center gap-1 sm:gap-2 md:gap-6 pt-8 sm:pt-12 md:pt-20">
           <PodiumStep rank={podiumOrder[0].rank} name={podiumOrder[0].name} score={podiumOrder[0].score} delay={400} themeColor={themeColor} hasTeam={!!podiumOrder[0].team || podiumOrder[0].teamStatus === 'coming_soon'} onClick={() => onPlayerClick(podiumOrder[0])} />
           <PodiumStep rank={podiumOrder[1].rank} name={podiumOrder[1].name} score={podiumOrder[1].score} delay={100} themeColor={themeColor} hasTeam={!!podiumOrder[1].team || podiumOrder[1].teamStatus === 'coming_soon'} onClick={() => onPlayerClick(podiumOrder[1])} />
           <PodiumStep rank={podiumOrder[2].rank} name={podiumOrder[2].name} score={podiumOrder[2].score} delay={700} themeColor={themeColor} hasTeam={!!podiumOrder[2].team || podiumOrder[2].teamStatus === 'coming_soon'} onClick={() => onPlayerClick(podiumOrder[2])} />
@@ -350,6 +346,9 @@ export default function App() {
   const handleTabChange = (tab: 'fantasanremo' | 'fantaeurovision') => {
     if (tab === activeTab) return;
     setIsAnimating(true);
+    if(window.innerWidth < 1024) {
+       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     setTimeout(() => {
       setActiveTab(tab);
       setIsAnimating(false);
@@ -369,70 +368,73 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-gray-100 font-sans selection:bg-indigo-500/30 overflow-x-hidden">
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(50px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes popIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
         
+        /* Animazione per il glow limitata al cerchietto */
         @keyframes winnerGlow { 
           0%, 100% { box-shadow: 0 0 15px rgba(250,204,21,0.4); } 
           50% { box-shadow: 0 0 25px rgba(250,204,21,0.8); } 
         }
         
-        .animate-slide-up-fade { animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        .animate-slide-up-fade { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
         .animate-float { animation: float 4s ease-in-out infinite; }
         .animate-pop-in { animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-winner-glow { animation: winnerGlow 3s ease-in-out infinite; }
         .fill-mode-forwards { animation-fill-mode: forwards; }
 
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(31, 41, 55, 0.5); border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(31, 41, 55, 0.3); border-radius: 8px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.5); border-radius: 8px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.8); }
         
-        /* Smooth scrolling per tutta la pagina */
         html { scroll-behavior: smooth; }
       `}} />
 
       {/* Bottone Torna Su Dinamico */}
       <button 
         onClick={scrollToTop}
-        className={`fixed bottom-6 right-6 z-40 p-3 rounded-full bg-gray-800/80 hover:bg-gray-700 backdrop-blur-md border border-gray-600 shadow-lg text-white transition-all duration-300 transform ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-6 right-6 z-40 p-3 rounded-full bg-gray-800/90 hover:bg-gray-700 backdrop-blur-md border border-gray-600 shadow-xl text-white transition-all duration-300 transform ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}
         aria-label="Torna all'inizio"
       >
         <ChevronUp className="w-6 h-6" />
       </button>
 
       {/* Tasto Condividi */}
-      <div className="absolute top-6 right-6 z-40 hidden sm:block">
-        <button onClick={handleShare} className={`flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-800/80 hover:bg-gray-700 backdrop-blur-md border border-gray-700 text-sm font-bold transition-all shadow-lg text-white`}>
-          {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Share2 className="w-4 h-4" />} {isCopied ? 'Copiato!' : 'Condividi'}
+      <div className="absolute top-4 sm:top-6 right-4 sm:right-6 z-40">
+        <button onClick={handleShare} className={`flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full bg-gray-800/80 hover:bg-gray-700 backdrop-blur-md border border-gray-700 text-xs sm:text-sm font-bold transition-all shadow-lg text-white`}>
+          {isCopied ? <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400" /> : <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />} <span className="hidden sm:inline">{isCopied ? 'Copiato!' : 'Condividi'}</span>
         </button>
       </div>
 
       {/* --- MODAL SQUADRA ESPANDIBILE --- */}
       {selectedPlayer && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedPlayer(null)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fade-in" onClick={() => setSelectedPlayer(null)}>
           <div className="bg-gray-800 border border-gray-700 rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-pop-in relative" onClick={(e) => e.stopPropagation()}>
             <div className={`p-6 text-center relative ${selectedPlayer.rank === 1 ? 'bg-gradient-to-br from-yellow-900/40 to-yellow-600/10' : selectedPlayer.rank === 2 ? 'bg-gradient-to-br from-gray-700/40 to-gray-500/10' : 'bg-gradient-to-br from-orange-900/40 to-orange-600/10'}`}>
               <button onClick={() => setSelectedPlayer(null)} className="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-900/50 p-1.5 rounded-full transition-colors"><X className="w-5 h-5" /></button>
-              <div className="inline-flex justify-center items-center p-4 rounded-full bg-gray-900/50 shadow-inner mb-3">
+              <div className="inline-flex justify-center items-center p-4 rounded-full bg-gray-900/50 shadow-inner mb-3 border border-white/5">
                 {selectedPlayer.rank === 1 ? <Crown className="w-10 h-10 text-yellow-400" /> : <Medal className={`w-10 h-10 ${selectedPlayer.rank === 2 ? 'text-gray-300' : 'text-orange-400'}`} />}
               </div>
               <h3 className="text-2xl font-black text-white">{selectedPlayer.name}</h3>
               <p className="text-indigo-300 font-mono mt-1 font-bold text-lg"><AnimatedNumber value={selectedPlayer.score} /> pt</p>
             </div>
-            <div className="p-6 bg-gray-800 max-h-[50vh] overflow-y-auto custom-scrollbar">
+            <div className="p-6 bg-gray-800/90 max-h-[50vh] overflow-y-auto custom-scrollbar">
               <div className="flex items-center gap-2 mb-4 text-gray-400 text-sm uppercase tracking-wider font-bold"><Users className="w-4 h-4" /> Formazione</div>
               {selectedPlayer.teamStatus === 'coming_soon' ? (
-                <div className="text-center p-6 text-gray-500 italic bg-gray-900/30 rounded-xl border border-gray-700/30">In Arrivo!</div>
+                <div className="text-center p-8 text-gray-400 italic bg-gray-900/50 rounded-2xl border border-gray-700/50 shadow-inner">
+                  <Flame className="w-8 h-8 mx-auto mb-2 text-indigo-400 opacity-50" />
+                  Le formazioni sono<br/>in arrivo!
+                </div>
               ) : selectedPlayer.team && selectedPlayer.team.length > 0 ? (
                 <ul className="space-y-2">
                   {selectedPlayer.team.map((member, idx) => {
                     const isReserve = idx >= 5;
                     return (
-                      <li key={idx} className={`flex items-center gap-3 p-3 rounded-xl border ${isReserve ? 'bg-gray-800/50 border-gray-700/30 border-dashed text-gray-400' : 'bg-gray-700/30 border-gray-700/50 text-gray-200'}`}>
+                      <li key={idx} className={`flex items-center gap-3 p-3 rounded-xl border ${isReserve ? 'bg-gray-800/50 border-gray-700/30 border-dashed text-gray-400' : 'bg-gray-700/50 border-gray-600/50 text-gray-200'}`}>
                         <div className={`w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold ${isReserve ? 'bg-gray-700 text-gray-500' : 'bg-gray-600 text-gray-300'}`}>{isReserve ? 'R' : idx + 1}</div>
                         <span className="font-medium">{member}</span>
                         {isReserve && <span className="ml-auto text-[10px] uppercase tracking-wider font-bold text-yellow-600 border border-yellow-600/30 px-2 py-0.5 rounded-full bg-yellow-900/20">Riserva</span>}
@@ -442,176 +444,180 @@ export default function App() {
                 </ul>
               ) : <div className="text-center p-6 text-gray-500 italic bg-gray-900/30 rounded-xl border border-gray-700/30">Nessuna squadra disponibile.</div>}
             </div>
-            <div className="p-4 bg-gray-900/50 border-t border-gray-700"><button onClick={() => setSelectedPlayer(null)} className="w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-white font-bold transition-colors">Chiudi</button></div>
+            <div className="p-4 bg-gray-900/80 border-t border-gray-700"><button onClick={() => setSelectedPlayer(null)} className="w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-white font-bold transition-colors">Chiudi</button></div>
           </div>
         </div>
       )}
 
       {/* Hero Section */}
-      <header className="relative pt-20 pb-12 z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <header className="relative pt-16 sm:pt-20 pb-8 sm:pb-12 z-10 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-blue-600/20 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-purple-600/20 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none"></div>
         
         <div className="container mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center justify-center p-3 bg-gray-800/50 rounded-full mb-6 border border-gray-700 animate-float">
-            <Trophy className="w-8 h-8 text-yellow-400 mr-3" />
-            <span className="text-sm font-semibold tracking-widest uppercase text-gray-300 pr-2">Hall of Fame</span>
+          <div className="inline-flex items-center justify-center p-2.5 sm:p-3 bg-gray-800/50 rounded-full mb-4 sm:mb-6 border border-gray-700 animate-float shadow-lg">
+            <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 mr-2 sm:mr-3" />
+            <span className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-gray-300 pr-2">Hall of Fame</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-black mb-4 tracking-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black mb-3 sm:mb-4 tracking-tight px-2 leading-tight">
             Classifiche <br className="md:hidden" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-              Fantasanremo e Fantaeurovision
+              Fanta Eventi
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+          <p className="text-sm sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-8">
             Scopri i vincitori storici. Chi ha scalato le vette del punteggio?
           </p>
-
-          <button onClick={handleShare} className={`sm:hidden mx-auto mb-6 flex items-center gap-2 px-6 py-3 rounded-full bg-gray-800/80 hover:bg-gray-700 border border-gray-700 text-sm font-bold transition-all text-white`}>
-            {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Share2 className="w-4 h-4" />} {isCopied ? 'Link Copiato!' : 'Condividi'}
-          </button>
         </div>
       </header>
 
       <main className="container mx-auto px-4 pb-24 relative z-10">
         
-        {/* --- SEZIONE MEDAGLIERE GENERALE --- */}
-        <section className="max-w-4xl mx-auto mb-20 animate-fade-in">
-          <div className="flex flex-col items-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-2 tracking-wide">Medagliere Generale</h2>
-            <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 via-gray-300 to-orange-500 rounded-full"></div>
-          </div>
+        {/* LAYOUT A 2 COLONNE PER DESKTOP */}
+        <div className="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
           
-          <div className="bg-gray-800/40 backdrop-blur-md rounded-3xl overflow-hidden border border-gray-700/50 shadow-2xl">
-            <div className="grid grid-cols-12 gap-2 p-4 md:p-5 bg-gray-900/80 text-xs md:text-sm font-bold text-gray-400 uppercase tracking-wider text-center border-b border-gray-700/50">
-              <div className="col-span-2 md:col-span-2 text-left pl-2 md:pl-6">Pos</div>
-              <div className="col-span-4 md:col-span-4 text-left">Fanta Allenatore</div>
-              <div className="col-span-2 flex justify-center"><div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#facc15] shadow-[0_0_10px_rgba(250,204,21,0.5)]"></div></div>
-              <div className="col-span-2 flex justify-center"><div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-gray-300 shadow-[0_0_10px_rgba(209,213,219,0.4)]"></div></div>
-              <div className="col-span-2 flex justify-center"><div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div></div>
+          {/* --- COLONNA SINISTRA: MEDAGLIERE GENERALE --- */}
+          <aside className="w-full lg:w-[35%] xl:w-[30%] lg:sticky lg:top-24 z-30 mb-8 lg:mb-0">
+            <div className="flex flex-col items-center lg:items-start mb-6 lg:pl-2">
+              <h2 className="text-2xl sm:text-3xl font-black text-white mb-2 tracking-wide">Medagliere Generale</h2>
+              <div className="h-1 w-16 sm:w-24 bg-gradient-to-r from-yellow-500 via-gray-300 to-orange-500 rounded-full"></div>
             </div>
             
-            <div className="flex flex-col">
-              {medagliereAggiornato.map((player, index) => {
-                const isTop3 = index < 3;
-                const posColor = index === 0 ? 'text-yellow-400' : index === 1 ? 'text-gray-300' : index === 2 ? 'text-orange-400' : 'text-gray-500';
-                
-                return (
-                  <div key={player.name} className={`grid grid-cols-12 gap-2 p-4 md:p-5 text-sm md:text-lg items-center text-center border-b border-gray-700/30 last:border-0 hover:bg-gray-700/50 transition-colors group animate-slide-up-fade opacity-0 fill-mode-forwards`} style={{ animationDelay: `${index * 80}ms` }}>
-                    <div className={`col-span-2 md:col-span-2 text-left pl-2 md:pl-6 font-mono font-black ${posColor}`}>{index + 1}°</div>
-                    <div className={`col-span-4 md:col-span-4 text-left font-bold ${isTop3 ? 'text-white' : 'text-gray-300'} group-hover:text-white transition-colors`}>{player.name}</div>
-                    <div className="col-span-2 font-mono text-yellow-400 font-bold">{player.gold}</div>
-                    <div className="col-span-2 font-mono text-gray-300 font-bold">{player.silver}</div>
-                    <div className="col-span-2 font-mono text-orange-400 font-bold">{player.bronze}</div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* Tab Selector per le edizioni classiche */}
-        <div className="flex justify-center mb-10">
-          <div className="bg-gray-800/80 backdrop-blur-md p-1.5 rounded-2xl inline-flex border border-gray-700/50 shadow-xl">
-            <button
-              onClick={() => handleTabChange('fantasanremo')}
-              className={`relative flex items-center px-6 md:px-8 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 ${
-                isSanremo ? 'text-white shadow-lg' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
-              }`}
-            >
-              {isSanremo && <div className={`absolute inset-0 bg-gradient-to-r ${tabGradientSanremo} rounded-xl z-0`}></div>}
-              <span className="relative z-10 flex items-center gap-2"><Music className="w-4 h-4" /> Fantasanremo</span>
-            </button>
-            <button
-              onClick={() => handleTabChange('fantaeurovision')}
-              className={`relative flex items-center px-6 md:px-8 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 ${
-                !isSanremo ? 'text-white shadow-lg' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
-              }`}
-            >
-              {!isSanremo && <div className={`absolute inset-0 bg-gradient-to-r ${tabGradientEurovision} rounded-xl z-0`}></div>}
-              <span className="relative z-10 flex items-center gap-2"><Sparkles className="w-4 h-4" /> Fantaeurovision</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Banner Prossimo Evento */}
-        <div className="max-w-2xl mx-auto mb-12 animate-fade-in relative group cursor-default">
-          <div className={`absolute -inset-1 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 ${isEventLive ? 'bg-red-500 animate-pulse' : (isSanremo ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-purple-500 to-fuchsia-500')}`}></div>
-          <div className="relative p-3 sm:p-4 rounded-2xl bg-gray-800 border border-gray-700/50 backdrop-blur-xl">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
-              <div className="flex items-center gap-3 sm:gap-4 w-full">
-                {isEventLive ? (
-                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-red-500/20 border border-red-500/30 flex-shrink-0 transition-colors duration-500">
-                    <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 animate-ping absolute"></div>
-                    <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 relative"></div>
-                  </div>
-                ) : <div className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full flex-shrink-0 transition-colors duration-500 ${isSanremo ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-purple-500/20 text-purple-400 border-purple-500/30'}`}><Calendar className="w-5 h-5 sm:w-6 sm:h-6" /></div>}
-                <div className="flex-1 min-w-0 text-left">
-                  <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5 sm:mb-1 transition-colors duration-500 ${isEventLive ? 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]' : (isSanremo ? 'text-blue-400' : 'text-purple-400')}`}>{isEventLive ? '🔴 Evento in corso' : 'Prossimo evento'}</p>
-                  <p className="text-white font-bold text-sm sm:text-lg leading-tight truncate sm:whitespace-normal">{eventConfig.title}</p>
+            <div className="bg-gray-800/40 backdrop-blur-md rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-700/50 shadow-2xl">
+              <div className="grid grid-cols-12 gap-1 sm:gap-2 p-3 sm:p-4 md:p-5 bg-gray-900/80 text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider text-center border-b border-gray-700/50">
+                <div className="col-span-2 text-left pl-2 sm:pl-4">Pos</div>
+                <div className="col-span-4 text-left">Allenatore</div>
+                <div className="col-span-2 flex justify-center"><div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#facc15] shadow-[0_0_8px_rgba(250,204,21,0.5)]"></div></div>
+                <div className="col-span-2 flex justify-center"><div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-gray-300 shadow-[0_0_8px_rgba(209,213,219,0.4)]"></div></div>
+                <div className="col-span-2 flex justify-center"><div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.5)]"></div></div>
+              </div>
+              
+              <div className="flex flex-col">
+                {medagliereAggiornato.map((player, index) => {
+                  const isTop3 = index < 3;
+                  const posColor = index === 0 ? 'text-yellow-400' : index === 1 ? 'text-gray-300' : index === 2 ? 'text-orange-400' : 'text-gray-500';
                   
-                  {/* Inserimento del componente Countdown */}
+                  return (
+                    <div key={player.name} className={`grid grid-cols-12 gap-1 sm:gap-2 p-3 sm:p-4 text-xs sm:text-sm items-center text-center border-b border-gray-700/30 last:border-0 hover:bg-gray-700/50 transition-colors group animate-slide-up-fade opacity-0 fill-mode-forwards`} style={{ animationDelay: `${index * 60}ms` }}>
+                      <div className={`col-span-2 text-left pl-2 sm:pl-4 font-mono font-black ${posColor}`}>{index + 1}°</div>
+                      <div className={`col-span-4 text-left font-bold truncate pr-1 ${isTop3 ? 'text-white' : 'text-gray-300'} group-hover:text-white transition-colors`}>{player.name}</div>
+                      <div className="col-span-2 font-mono text-yellow-400 font-bold">{player.gold}</div>
+                      <div className="col-span-2 font-mono text-gray-300 font-bold">{player.silver}</div>
+                      <div className="col-span-2 font-mono text-orange-400 font-bold">{player.bronze}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </aside>
+
+          {/* --- COLONNA DESTRA: TABS, BANNER E CLASSIFICHE --- */}
+          <div className="w-full lg:w-[65%] xl:w-[70%] flex flex-col">
+            
+            {/* Tab Selector */}
+            <div className="flex justify-center lg:justify-start mb-8 lg:mb-10 sticky top-4 z-40">
+              <div className="bg-gray-900/90 backdrop-blur-xl p-1.5 rounded-2xl inline-flex border border-gray-700/80 shadow-2xl">
+                <button
+                  onClick={() => handleTabChange('fantasanremo')}
+                  className={`relative flex items-center px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 rounded-xl font-bold text-xs sm:text-sm md:text-base transition-all duration-300 ${
+                    isSanremo ? 'text-white shadow-lg' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+                  }`}
+                >
+                  {isSanremo && <div className={`absolute inset-0 bg-gradient-to-r ${tabGradientSanremo} rounded-xl z-0`}></div>}
+                  <span className="relative z-10 flex items-center gap-1.5 sm:gap-2"><Music className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Fantasanremo</span>
+                </button>
+                <button
+                  onClick={() => handleTabChange('fantaeurovision')}
+                  className={`relative flex items-center px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 rounded-xl font-bold text-xs sm:text-sm md:text-base transition-all duration-300 ${
+                    !isSanremo ? 'text-white shadow-lg' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+                  }`}
+                >
+                  {!isSanremo && <div className={`absolute inset-0 bg-gradient-to-r ${tabGradientEurovision} rounded-xl z-0`}></div>}
+                  <span className="relative z-10 flex items-center gap-1.5 sm:gap-2"><Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Eurovision</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Banner Prossimo Evento */}
+            <div className="w-full mb-10 sm:mb-12 animate-fade-in relative group cursor-default">
+              <div className={`absolute -inset-1 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 ${isEventLive ? 'bg-red-500 animate-pulse' : (isSanremo ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-purple-500 to-fuchsia-500')}`}></div>
+              <div className="relative p-3 sm:p-4 rounded-2xl bg-gray-800 border border-gray-700/50 backdrop-blur-xl">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                  <div className="flex items-center gap-3 w-full">
+                    {isEventLive ? (
+                      <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-red-500/20 border border-red-500/30 flex-shrink-0 transition-colors duration-500">
+                        <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 animate-ping absolute"></div>
+                        <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 relative"></div>
+                      </div>
+                    ) : <div className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full flex-shrink-0 transition-colors duration-500 ${isSanremo ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-purple-500/20 text-purple-400 border-purple-500/30'}`}><Calendar className="w-5 h-5 sm:w-6 sm:h-6" /></div>}
+                    <div className="flex-1 min-w-0 text-left">
+                      <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5 transition-colors duration-500 ${isEventLive ? 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]' : (isSanremo ? 'text-blue-400' : 'text-purple-400')}`}>{isEventLive ? '🔴 Evento in corso' : 'Prossimo evento'}</p>
+                      <p className="text-white font-bold text-sm sm:text-base md:text-lg leading-tight truncate">{eventConfig.title}</p>
+                      {!isEventLive && (
+                        <div className="mt-1.5 sm:mt-2 inline-block">
+                          <EventCountdown startDateStr={eventConfig.startDateISO} />
+                        </div>
+                      )}
+                    </div>
+                  </div>
                   {!isEventLive && (
-                    <div className="mt-1 sm:mt-1.5 inline-block">
-                      <EventCountdown startDateStr={eventConfig.startDateISO} />
+                    <div className="w-full sm:w-auto bg-gray-900 px-3 py-2 rounded-xl border border-gray-700 text-center flex-shrink-0 mt-1 sm:mt-0">
+                      <p className="text-gray-300 text-xs font-medium whitespace-nowrap">{eventConfig.dates}</p>
                     </div>
                   )}
-
                 </div>
               </div>
-              {!isEventLive && (
-                <div className="w-full sm:w-auto bg-gray-900 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-gray-700 text-center flex-shrink-0 mt-2 sm:mt-0">
-                  <p className="text-gray-300 text-xs sm:text-sm font-medium">{eventConfig.dates}</p>
-                </div>
-              )}
             </div>
-          </div>
-        </div>
 
-        {/* Classifiche Selezionate */}
-        <div className={`transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
-          {years.map(year => (
-            <YearSection 
-              key={`${activeTab}-${year}`} 
-              year={year.toString()} 
-              data={currentData[year]} 
-              themeColor={themeColor}
-              onPlayerClick={setSelectedPlayer}
-            />
-          ))}
+            {/* Classifiche Selezionate */}
+            <div className={`transition-opacity duration-300 w-full ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
+              {years.map(year => (
+                <YearSection 
+                  key={`${activeTab}-${year}`} 
+                  year={year.toString()} 
+                  data={currentData[year]} 
+                  themeColor={themeColor}
+                  onPlayerClick={setSelectedPlayer}
+                />
+              ))}
+            </div>
+
+          </div>
         </div>
 
         {/* --- SEZIONE FANTAOLIMPIADI --- */}
-        <section className="mt-24 pt-16 border-t border-gray-800 relative z-10">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-64 bg-green-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <section className="mt-16 sm:mt-24 pt-12 sm:pt-16 border-t border-gray-800/80 relative z-10 w-full">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-48 sm:h-64 bg-green-600/10 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none"></div>
           
-          <div className="text-center mb-12 relative z-20">
-            <div className="inline-flex items-center justify-center p-4 bg-gray-800/80 backdrop-blur-md rounded-full mb-6 border border-gray-700 shadow-xl">
-              <Flame className="w-8 h-8 text-green-400" />
+          <div className="text-center mb-10 sm:mb-12 relative z-20">
+            <div className="inline-flex items-center justify-center p-3 sm:p-4 bg-gray-800/80 backdrop-blur-md rounded-full mb-4 sm:mb-6 border border-gray-700 shadow-xl">
+              <Flame className="w-6 h-6 sm:w-8 sm:h-8 text-green-400" />
             </div>
-            <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 tracking-tight drop-shadow-sm mb-4">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 tracking-tight drop-shadow-sm mb-3 sm:mb-4 px-2">
               Fantaolimpiadi
             </h2>
-            <p className="text-gray-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto px-4">
               L'edizione speciale unica per le Olimpiadi Invernali Milano Cortina 2026.
             </p>
           </div>
 
-          <YearSection 
-            year="2026" 
-            data={fantaolimpiadiData} 
-            themeColor="green" 
-            onPlayerClick={setSelectedPlayer}
-          />
+          <div className="max-w-3xl mx-auto">
+            <YearSection 
+              year="2026" 
+              data={fantaolimpiadiData} 
+              themeColor="green" 
+              onPlayerClick={setSelectedPlayer}
+            />
+          </div>
         </section>
 
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 bg-gray-900/50 text-center py-8">
-        <p className="text-gray-500 flex items-center justify-center gap-2">
-          Prossima Competizione: Eurovision Song Contest 2026 <Star className="w-4 h-4 text-yellow-600" />
+      <footer className="border-t border-gray-800/80 bg-gray-900/80 backdrop-blur-sm text-center py-6 sm:py-8 mt-12">
+        <p className="text-gray-500 text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 px-4">
+          Prossima Competizione: Eurovision Song Contest 2026 <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-600" />
         </p>
       </footer>
     </div>
