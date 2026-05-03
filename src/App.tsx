@@ -170,7 +170,7 @@ const mockData: MockData = {
       { rank: 3, name: "Matteo", score: 495 }  // Rimosso team
     ],
     2026: [
-      { rank: 1, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' },
+      { rank: 1, name: "In Arrivo", score: 0, team: ["Stati Uniti", "Cina", "Francia", "Ucraina", "Italia"] },
       { rank: 2, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' },
       { rank: 3, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' }
     ]
@@ -179,7 +179,7 @@ const mockData: MockData = {
 
 // Dati speciali solo per le Fantaolimpiadi
 const fantaolimpiadiData: RankData[] = [
-  { rank: 1, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' },
+  { rank: 1, name: "Matteo", score: 11513, teamStatus: 'coming_soon' },
   { rank: 2, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' },
   { rank: 3, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' }
 ];
