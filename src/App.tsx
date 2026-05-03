@@ -180,7 +180,7 @@ const mockData: MockData = {
 // Dati speciali solo per le Fantaolimpiadi
 const fantaolimpiadiData: RankData[] = [
   { rank: 1, name: "Matteo", score: 11513, team: ["Stati Uniti", "Cina", "Francia", "Ucraina", "Italia"] },
-  { rank: 2, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' },
+  { rank: 2, name: "Luca", score: 9898, team: ["Norvegia", "Stati Uniti", "Italia", "Germania", "Canada"] },
   { rank: 3, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' }
 ];
 
