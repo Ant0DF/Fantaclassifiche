@@ -48,6 +48,10 @@ const EventCountdown = ({ startDateStr }: { startDateStr: string }) => {
   const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | null>(null);
 
   useEffect(() => {
+    if (!startDateStr) {
+      setTimeLeft(null);
+      return;
+    }
     const calculateTimeLeft = () => {
       const difference = +new Date(startDateStr) - +new Date();
       if (difference > 0) {
@@ -114,16 +118,18 @@ interface MockData {
 }
 
 const eventConfig = {
-  title: "Eurovision Song Contest 2026",
-  dates: "12 - 14 - 16 maggio 2026",
-  startDateISO: "2026-05-12T21:00:00+02:00",
+  title: "Fantasanremo 2027",
+  dates: "Data TBA",
+  startDateISO: "", // Lasciato vuoto per disattivare il countdown
   isOngoing: false 
 };
 
 const isEventOngoing = () => {
+  if (!eventConfig.startDateISO) return false;
   const today = new Date();
-  const startDate = new Date('2026-05-12T00:00:00');
-  const endDate = new Date('2026-05-16T23:59:59');
+  const startDate = new Date(eventConfig.startDateISO);
+  // Stimiamo 5 giorni di durata se dovesse esserci una data
+  const endDate = new Date(startDate.getTime() + (5 * 24 * 60 * 60 * 1000));
   return today >= startDate && today <= endDate;
 };
 
@@ -157,9 +163,10 @@ const mockData: MockData = {
       { rank: 3, name: "Matteo", score: 495 }
     ],
     2026: [
-      { rank: 1, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' },
-      { rank: 2, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' },
-      { rank: 3, name: "In Arrivo", score: 0, teamStatus: 'coming_soon' }
+      // Aggiornati con i risultati (esempi che puoi modificare)
+      { rank: 1, name: "Matteo", score: 950, team: ["Nemo", "Baby Lasagna", "Bambie Thug", "Angelina Mango", "Slimane"] },
+      { rank: 2, name: "Giuseppe", score: 820, team: ["Baby Lasagna", "Alyona Alyona", "Marcus & Martinus", "Ladaniva", "Marina Satti"] },
+      { rank: 3, name: "Antonio", score: 750, team: ["Bambie Thug", "Nemo", "Nebulossa", "Gåte", "Kaleen"] }
     ]
   }
 };
@@ -334,10 +341,10 @@ export default function App() {
   const years: (keyof CompetitionData)[] = [2026, 2025, 2024];
   const medagliereAggiornato = calculateMedagliere();
 
-  // Componente Banner (Riutilizzabile)
+  // Componente Banner (Riutilizzabile e aggiornato a Sanremo)
   const EventBanner = () => (
-    <div className="w-full max-w-3xl mx-auto mb-10 sm:mb-12 animate-fade-in relative group cursor-default">
-      <div className={`absolute -inset-1 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 ${isEventLive ? 'bg-red-500 animate-pulse' : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'}`}></div>
+    <div className="w-full max-w-3xl mx-auto mb-10 sm:mb-12 animate-fade-in relative group cursor-default mt-6">
+      <div className={`absolute -inset-1 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 ${isEventLive ? 'bg-red-500 animate-pulse' : 'bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500'}`}></div>
       <div className="relative p-3 sm:p-4 rounded-2xl bg-gray-800 border border-gray-700/50 backdrop-blur-xl">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-3 w-full">
@@ -346,11 +353,11 @@ export default function App() {
                 <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 animate-ping absolute"></div>
                 <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-500 relative"></div>
               </div>
-            ) : <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full flex-shrink-0 transition-colors duration-500 bg-purple-500/20 text-purple-400 border-purple-500/30"><Calendar className="w-5 h-5 sm:w-6 sm:h-6" /></div>}
+            ) : <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full flex-shrink-0 transition-colors duration-500 bg-blue-500/20 text-blue-400 border-blue-500/30"><Calendar className="w-5 h-5 sm:w-6 sm:h-6" /></div>}
             <div className="flex-1 min-w-0 text-left">
-              <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5 transition-colors duration-500 ${isEventLive ? 'text-red-400' : 'text-purple-400'}`}>{isEventLive ? '🔴 Evento in corso' : 'Prossimo evento'}</p>
+              <p className={`text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5 transition-colors duration-500 ${isEventLive ? 'text-red-400' : 'text-blue-400'}`}>{isEventLive ? '🔴 Evento in corso' : 'Prossimo evento'}</p>
               <p className="text-white font-bold text-sm sm:text-base md:text-lg leading-tight truncate">{eventConfig.title}</p>
-              {!isEventLive && (
+              {!isEventLive && eventConfig.startDateISO && (
                 <div className="mt-1.5 sm:mt-2 inline-block">
                   <EventCountdown startDateStr={eventConfig.startDateISO} />
                 </div>
@@ -478,6 +485,27 @@ export default function App() {
                 L'archivio storico ufficiale delle nostre leghe. Scopri chi domina il medagliere e rivivi i podi delle passate edizioni.
               </p>
               
+              {/* Banner Annuncio Risultati Eurovision 2026 */}
+              <div className="w-full max-w-3xl mx-auto mb-8 animate-slide-up-fade">
+                <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-xl shadow-[0_0_30px_rgba(168,85,247,0.15)]">
+                  <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                    <span className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-purple-500/20 text-purple-400 flex-shrink-0">
+                      <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
+                    </span>
+                    <div className="text-left">
+                      <p className="text-white font-bold text-sm sm:text-base">Risultati Fantaeurovision 2026 disponibili!</p>
+                      <p className="text-xs sm:text-sm text-gray-400">Scopri chi ha trionfato in Europa quest'anno.</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleViewChange('fantaeurovision')}
+                    className="w-full sm:w-auto px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-purple-500/30 flex items-center justify-center gap-2"
+                  >
+                    Vedi Classifica
+                  </button>
+                </div>
+              </div>
+
               <EventBanner />
             </div>
           </header>
@@ -656,7 +684,7 @@ export default function App() {
       {/* Footer Universale */}
       <footer className="border-t border-gray-800/80 bg-gray-900/80 backdrop-blur-sm text-center py-6 sm:py-8">
         <p className="text-gray-500 text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 px-4">
-          Fanta Eventi - Hall of Fame <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-600" />
+          Prossima Competizione: Fantasanremo 2027 (Data TBA) <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-600" />
         </p>
       </footer>
     </div>
