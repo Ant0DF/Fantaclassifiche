@@ -164,9 +164,9 @@ const mockData: MockData = {
     ],
     2026: [
       // Aggiornati con i risultati (esempi che puoi modificare)
-      { rank: 1, name: "Matteo", score: 950, team: ["Nemo", "Baby Lasagna", "Bambie Thug", "Angelina Mango", "Slimane"] },
-      { rank: 2, name: "Giuseppe", score: 820, team: ["Baby Lasagna", "Alyona Alyona", "Marcus & Martinus", "Ladaniva", "Marina Satti"] },
-      { rank: 3, name: "Antonio", score: 750, team: ["Bambie Thug", "Nemo", "Nebulossa", "Gåte", "Kaleen"] }
+      { rank: 1, name: "Antonio", score: 632, team: ["Finlandia", "Grecia", "Romania", "Bulgaria", "Cechia", "Israele", "Malta"] },
+      { rank: 2, name: "Claudia", score: 599, team: ["Italia", "Polonia", "Australia", "Bulgaria", "Cipro", "Austria", "Georgia"] },
+      { rank: 3, name: "Matteo", score: 556, team: ["Finlandia", "Danimarca", "Serbia", "Cipro", "Norvegia", "Malta", "San Marino"] }
     ]
   }
 };
